@@ -46,12 +46,15 @@ button, select { font: inherit; color: inherit; }
 #rivers path, #aral-riv { fill: none; stroke: #47738c; stroke-width: .9; vector-effect: non-scaling-stroke; pointer-events: none; stroke-linejoin: round; }
 #osm-sea { fill: var(--sea); stroke: none; pointer-events: none; fill-rule: evenodd; shape-rendering: crispEdges; }
 #osm-land path { fill: var(--land); stroke: none; pointer-events: none; }
-#osm-isl path { stroke: var(--ink); stroke-opacity: .6; stroke-width: .4; vector-effect: non-scaling-stroke; pointer-events: none; }
+#osm-isl path { stroke: none; pointer-events: none; }
 .terrg path { stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; fill-rule: evenodd; }
 .terrg .t-conf { fill: url(#tconf); stroke: var(--stamp); }
 .terrg .t-fill { stroke: none; }
 .terrg .tf.t-occ { stroke: none; }
-.terrg .ts { fill: none; stroke: var(--stamp); stroke-width: 1.7; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+/* Territori: il riempimento non ha contorno; il contorno sta in .ts, con gli stessi stili, mascherato lungo le coste */
+#terr .tf, #terr-top .tf { stroke: none !important; }
+#terr .ts, #terr-top .ts { fill: none !important; pointer-events: none; }
+.terrg .ts.t-occ { stroke: var(--stamp); stroke-width: 1.7; stroke-dasharray: 5 3; }
 .terrg .t-line { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 6 3; pointer-events: none; }
 .terrg .t-usocc { fill: var(--U); fill-opacity: .6; stroke: var(--U); stroke-width: 1.4; stroke-dasharray: 5 3; }
 .terrg .t-land, .land-on .terrg .t-low { display: none; }
@@ -84,9 +87,10 @@ button, select { font: inherit; color: inherit; }
 #code { position: absolute; right: 10px; bottom: 10px; pointer-events: none; font: 12px var(--type); color: var(--ink); }
 
 .land { fill: var(--land); }
-.state { stroke: var(--ink); stroke-opacity: .7; stroke-width: .55; vector-effect: non-scaling-stroke; cursor: pointer; }
-.state:hover { stroke-opacity: 1; stroke-width: 1.1; }
-.state.sel { stroke-opacity: 1; stroke-width: 1.8; }
+/* Gli Stati non hanno contorno: i confini di terra li disegna #landborders, le coste restano il solo bordo del colore */
+.state { stroke: none; stroke-opacity: .7; stroke-width: .55; vector-effect: non-scaling-stroke; cursor: pointer; }
+.state:hover { stroke: var(--ink); stroke-opacity: 1; stroke-width: 1.1; }
+.state.sel { stroke: var(--ink); stroke-opacity: 1; stroke-width: 1.8; }
 .state.col { stroke-opacity: 1; stroke-width: .8; }
 .state.col:hover, .state.col.sel { stroke: var(--ink) !important; }
 #sba path { fill: var(--U); stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; fill-rule: evenodd; cursor: pointer; }
@@ -535,7 +539,7 @@ features.forEach((f, i) => { f._g = stateGeoms[i]; });
     const p = defs.append("pattern").attr("id", `emp-${id}`).attr("class", "pat").attr("data-rot", e.rot).attr("width", 4.5).attr("height", 4.5).attr("patternUnits", "userSpaceOnUse");
     p.append("rect").attr("width", 4.5).attr("height", 4.5).attr("fill", "#e2dcc8");
     p.append("rect").attr("width", 1.5).attr("height", 4.5).attr("fill", e.color);
-    css += `.state.col.emp-${id},.terrg .emp-${id},#osm-isl .emp-${id},#osm-under .emp-${id}{fill:url(#emp-${id});}.state.col.emp-${id}{stroke:url(#emp-${id});}`;
+    css += `.state.col.emp-${id},.terrg .emp-${id},#osm-isl .emp-${id},#osm-under .emp-${id}{fill:url(#emp-${id});}`;
   }
   const st = document.createElement("style"); st.textContent = css; document.head.append(st);
 })();
@@ -547,7 +551,7 @@ function empireLines(active, m) {
   const owner = new Map(active.map(f => { const c = colonyAt(f.properties.c, m); return [geomOf(f), c ? c.e : null]; }));
   const mesh = topojson.mesh(hi ? BORDERS_HI : BORDERS, { type: "GeometryCollection", geometries: active.map(geomOf) }, (a, b) => {
     const ea = owner.get(a), eb = owner.get(b);
-    return (ea || eb) && (a === b || ea !== eb);
+    return (ea || eb) && a !== b && ea !== eb; // niente coste: solo i confini tra imperi o con gli Stati indipendenti
   });
   const d = geo(mesh) || "";
   meshCache.set(key, d);
@@ -773,7 +777,8 @@ function render() {
       .style("pointer-events", x => x.pass ? "none" : null) // i livelli che ridisegnano uno Stato lasciano passare i clic allo Stato sotto
       .on("pointermove", (ev, x) => showTip(ev, x.n, x.d)).on("pointerleave", hideTip).on("click", (ev, x) => select(x));
     g.select("path.tf").attr("class", x => "tf " + klass(x)).attr("d", x => x._d || (x._d = ringsD5(x.rings)));
-    g.select("path.ts").attr("display", x => /\bt-occ\b/.test(klass(x)) ? null : "none").attr("d", x => x._d || (x._d = ringsD5(x.rings)));
+    // Il contorno prende gli stili del riempimento; la maschera lo toglie lungo le coste (non serve per i territori ritagliati sulla terra)
+    g.select("path.ts").attr("class", x => "ts " + klass(x)).attr("mask", x => x.clipKey ? null : "url(#inland)").attr("d", x => x._d || (x._d = ringsD5(x.rings)));
   }
   if (detailReady) renderDetailTerr(m, klass);
   if (window.flagsReady) updateFlags();
