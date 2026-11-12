@@ -4,7 +4,11 @@ Carta interattiva del mondo dal gennaio 1945 al dicembre 1991, mese per mese, co
 imperi coloniali, occupazioni, fronti dei conflitti, basi, test nucleari, leader ed elezioni. Si ingrandisce fino al
 dettaglio di Berlino (Muro, settori, valichi).
 
-Apri `index.html` in un browser servito via HTTP (i dati si caricano come script separati), per esempio:
+**Aprila online: https://pietrolampani.github.io/cold-war-atlas/**
+
+Non sei pratico di GitHub? Leggi la **[guida passo passo per aprirla e scaricarla](GUIDA.md)**.
+
+In locale basta aprire `index.html` dalla cartella estratta (serve Internet per D3 e i caratteri), oppure servirla via HTTP:
 
 ```
 python -m http.server 8765
