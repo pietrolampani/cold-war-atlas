@@ -1,0 +1,1520 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>html,body{margin:0}[hidden]{display:none!important}</style></head><body><title>Atlante della Guerra Fredda</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@1,8..60,400&family=Special+Elite&display=swap">
+<style>
+/* Layout: carta d'archivio declassificata. Tinte a retino su carta ingiallita, cornice con riquadro, fascicolo dattiloscritto a destra. */
+:root {
+  color-scheme: light;
+  --paper: #e9e4d2; --sheet: #efeadb; --sea: #c6d2d0; --land: #ddd7c1; --rule: #8b8672; --ink: #26241c; --muted: #5f5b49;
+  --U: #7f9fbb; --u: #a9bdcb; --S: #c47a68; --s: #dcab99; --N: #d9cb94; --c-a: #7f9fbb; --c-b: #e2dcc8;
+  --A: #9fb08a; --X: #5a574b; --O: #8d8a7c;
+  --stamp: #a3322a; --front: #a3322a; --line: #26241c; --focus: #a3322a;
+  --us: #2f5f8a; --su: #a3322a; --uk: #5d4a86; --fr: #1f6b58; --cn: #8a6a12;
+  --west: #a9bdcb; --east: #dcab99; --strip: #b9b39b;
+  --oc-uk: #7b5e9e; --oc-us: #3f6ea6; --oc-fr: #d98a3c;
+  --type: "Special Elite", "Courier New", monospace;
+  --body: "Archivo Narrow", "Arial Narrow", Arial, sans-serif;
+  --sea-type: "Source Serif 4", Georgia, serif;
+}
+html, body { height: 100%; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.4 var(--body); }
+button, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+#app { height: 100%; display: grid; grid-template: minmax(0, 1fr) auto auto / minmax(0, 1fr) 340px; }
+#log { grid-column: 1; background: var(--sheet); border-top: 1px solid var(--rule); padding-block: 5px 7px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; max-height: 92px; overflow-y: auto; }
+#log h2 { margin: 0 0 3px; border: 0; padding: 0; }
+#log ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; font-size: 14px; }
+#log .soon { color: var(--muted); }
+#log button { background: none; border: 0; padding: 0; cursor: pointer; color: inherit; text-decoration: underline; font: inherit; }
+.mk .nuke { fill: none; stroke: var(--stamp); stroke-width: 1.1; display: none; }
+.mk .sov { fill: none; stroke: var(--ink); stroke-width: .9; display: none; }
+.mid .mk .nuke, .mid .mk .sov { display: block; }
+.bat path { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+.bat circle { fill: var(--sheet); stroke: var(--ink); stroke-width: .8; }
+.bat text { fill: var(--ink); }
+.mid .bat text { display: block; }
+.tst { cursor: pointer; }
+.tst circle { fill: var(--stamp); fill-opacity: .55; stroke: var(--stamp); stroke-width: .6; }
+.tst.old circle { fill-opacity: .12; stroke-opacity: .35; }
+.land-on #states .state { stroke: none; }
+.land-on #states .state.sel { stroke: var(--ink); stroke-width: 1.8; }
+.land-on #emplines { display: none; }
+#landborders { fill: none; stroke: var(--ink); stroke-opacity: .85; stroke-width: .7; vector-effect: non-scaling-stroke; pointer-events: none; stroke-linejoin: round; }
+#lakes path { fill: var(--sea); stroke: #6f8583; stroke-width: .4; vector-effect: non-scaling-stroke; fill-rule: evenodd; pointer-events: none; }
+#rivers path, #aral-riv { fill: none; stroke: #47738c; stroke-width: .9; vector-effect: non-scaling-stroke; pointer-events: none; stroke-linejoin: round; }
+#osm-sea { fill: var(--sea); stroke: none; pointer-events: none; fill-rule: evenodd; shape-rendering: crispEdges; }
+#osm-land path { fill: var(--land); stroke: none; pointer-events: none; }
+#osm-isl path { stroke: var(--ink); stroke-opacity: .6; stroke-width: .4; vector-effect: non-scaling-stroke; pointer-events: none; }
+.terrg path { stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; fill-rule: evenodd; }
+.terrg .t-conf { fill: url(#tconf); stroke: var(--stamp); }
+.terrg .t-fill { stroke: none; }
+.terrg .tf.t-occ { stroke: none; }
+.terrg .ts { fill: none; stroke: var(--stamp); stroke-width: 1.7; stroke-dasharray: 5 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+.terrg .t-line { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 6 3; pointer-events: none; }
+.terrg .t-usocc { fill: var(--U); fill-opacity: .6; stroke: var(--U); stroke-width: 1.4; stroke-dasharray: 5 3; }
+.terrg .t-land, .land-on .terrg .t-low { display: none; }
+.land-on .terrg .t-land { display: inline; }
+.terrg .t-arg { fill: url(#dotU); stroke: var(--stamp); stroke-width: 1.4; }
+.terrg .t-sov { fill: url(#tsov); stroke: var(--stamp); stroke-dasharray: 5 3; }
+.terrg .t-uk { fill: url(#emp-uk); stroke: var(--ink); stroke-dasharray: 5 3; }
+#halo path { vector-effect: none; stroke-opacity: 1; stroke-width: .8; pointer-events: none; stroke-linejoin: round; }
+#halo .st-U { stroke: var(--U); } #halo .st-u { stroke: url(#dotU); } #halo .st-S { stroke: var(--S); } #halo .st-s { stroke: var(--s); } #halo .st-N { stroke: var(--N); } #halo .st-A { stroke: var(--A); } #halo .st-X { stroke: var(--X); } #halo .st-O { stroke: var(--O); } #halo .st-c { stroke: url(#hatch); } #halo .land { stroke: var(--land); }
+.coast-sea { fill: var(--sea); stroke: none; }
+.coast-land.state { stroke: none; pointer-events: none; }
+.leader { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px; align-items: center; margin-top: 8px; }
+.leader .wlink { color: inherit; text-decoration: underline; text-decoration-color: var(--stamp); text-underline-offset: 2px; }
+.leader .wlink:hover, .leader .wlink:focus-visible { color: var(--stamp); }
+.leader img, .leader .ph { width: 56px; height: 68px; object-fit: cover; border: 1px solid var(--ink); background: var(--land); filter: grayscale(.6) sepia(.15); }
+.vote { display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 1px 6px; font-size: 13px; margin-top: 4px; }
+.vote .b { grid-column: 1 / 3; height: 4px; background: var(--land); }
+.vote .b i { display: block; height: 100%; background: var(--ink); }
+#stage { position: relative; background: var(--sea); min-height: 0; overflow: hidden; margin: 8px; border: 1px solid var(--ink); outline: 3px solid var(--paper); box-shadow: 0 0 0 4px var(--ink); }
+#map { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
+#map:active { cursor: grabbing; }
+
+#date { position: absolute; left: 12px; top: 10px; pointer-events: none; padding: 4px 10px 2px; background: var(--sheet); border: 1px solid var(--ink);
+  font: clamp(17px, 2.4vw, 26px)/1.1 var(--type); text-transform: uppercase; }
+#zoom { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 1px; background: var(--ink); border: 1px solid var(--ink); }
+#zoom button { width: 32px; height: 32px; border: 0; background: var(--sheet); cursor: pointer; font-family: var(--type); font-size: 16px; }
+#zoom button:hover { background: var(--land); }
+#scale { position: absolute; left: 12px; bottom: 10px; pointer-events: none; font: 12px var(--type); background: var(--sheet); padding: 3px 6px 1px; border: 1px solid var(--ink); }
+#scale i { display: block; height: 4px; margin-top: 2px; border: 1px solid var(--ink); border-top: 0; }
+#code { position: absolute; right: 10px; bottom: 10px; pointer-events: none; font: 12px var(--type); color: var(--ink); }
+
+.land { fill: var(--land); }
+.state { stroke: var(--ink); stroke-opacity: .7; stroke-width: .55; vector-effect: non-scaling-stroke; cursor: pointer; }
+.state:hover { stroke-opacity: 1; stroke-width: 1.1; }
+.state.sel { stroke-opacity: 1; stroke-width: 1.8; }
+.state.col { stroke-opacity: 1; stroke-width: .8; }
+.state.col:hover, .state.col.sel { stroke: var(--ink) !important; }
+#sba path { fill: var(--U); stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; fill-rule: evenodd; cursor: pointer; }
+#gib path { vector-effect: non-scaling-stroke; fill-rule: evenodd; }
+#gib-sea { fill: var(--sea); }
+#gib-spain { stroke: none; }
+#gib-rock.state.col { stroke: var(--ink); stroke-width: 1; cursor: pointer; }
+#gib-border { fill: none; stroke: var(--ink); stroke-width: 2.4; cursor: pointer; pointer-events: stroke; }
+#gib-border.closed { stroke: var(--front); stroke-width: 2.8; stroke-dasharray: 6 3; }
+#aral path { vector-effect: non-scaling-stroke; fill-rule: evenodd; cursor: pointer; }
+#aral-bed { fill: #e6d9ae; stroke: var(--ink); stroke-width: .8; stroke-dasharray: 4 3; }
+#aral-water { fill: var(--sea); stroke: #4f6a6a; stroke-width: .7; }
+.bar { height: 8px; border: 1px solid var(--ink); background: #e6d9ae; margin-top: 5px; }
+.bar i { display: block; height: 100%; background: #8fa8a6; }
+#emplines { fill: none; stroke: var(--ink); stroke-width: 1.1; vector-effect: non-scaling-stroke; pointer-events: none; stroke-linejoin: round; }
+.st-U { fill: var(--U); } .st-u { fill: url(#dotU); } .st-S { fill: var(--S); } .st-s { fill: var(--s); }
+.st-A { fill: var(--A); } .st-X { fill: var(--X); } .st-O { fill: var(--O); }
+.st-N { fill: var(--N); } .st-c { fill: url(#hatch); }
+.grat { fill: none; stroke: #6f8583; stroke-width: .4; vector-effect: non-scaling-stroke; opacity: .6; }
+.lbl { fill: var(--ink); text-anchor: middle; dominant-baseline: middle; pointer-events: none; font-family: var(--body); font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+  stroke: var(--sheet); stroke-opacity: .7; paint-order: stroke; }
+.ocean { fill: #4f6a6a; font-family: var(--sea-type); font-style: italic; text-anchor: middle; letter-spacing: .22em; text-transform: uppercase; pointer-events: none; }
+.ln { fill: none; vector-effect: non-scaling-stroke; pointer-events: none; stroke-linejoin: round; stroke-linecap: round; }
+.ln-halo { stroke: var(--sheet); stroke-width: 4; opacity: .75; }
+.ln-front { stroke: var(--front); stroke-width: 1.1; stroke-dasharray: 4 3; }
+.ln-halo-front { display: none; }
+.ln-route { stroke: #6b3a24; stroke-width: 2; stroke-dasharray: 0.1 4.5; stroke-linecap: round; }
+.ln-line { stroke: var(--line); stroke-width: 1.7; }
+.ln-hit { fill: none; stroke: transparent; stroke-width: 12; vector-effect: non-scaling-stroke; cursor: pointer; pointer-events: stroke; }
+
+/* Planimetria */
+.d-fill { stroke: none; }
+.d-west { fill: var(--west); }
+/* Occupazione alleata 1945-1955: tinte nazionali piene */
+.oc-uk { fill: var(--oc-uk); } .oc-us { fill: var(--oc-us); } .oc-fr { fill: var(--oc-fr); }
+.terrg .t-dist { fill: none; stroke: var(--ink); stroke-width: .6; stroke-opacity: .6; stroke-dasharray: 3 2; pointer-events: none; }
+#flags .flag { cursor: default; }
+#flags .fl-frame { fill: none; stroke: var(--ink); stroke-width: .8; }
+#flags .fl-pole { stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; }
+#vdist text { font: 600 11px var(--body); fill: var(--ink); stroke: var(--sheet); stroke-width: 2.5px; paint-order: stroke; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.d-wline { stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.d-wline.d-edge, .terrg .t-edge { fill: none; stroke: var(--ink); stroke-width: 1; pointer-events: none; }
+.d-frg { fill: var(--U); }
+.d-gdr { fill: var(--S); }
+.d-east-city { fill: var(--east); }
+.d-water { fill: var(--sea); stroke: #6f8583; stroke-width: .4; vector-effect: non-scaling-stroke; }
+.d-river { fill: none; stroke: #8fa8a6; stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.d-road, .d-rail, .d-wall, .d-sector, .d-rem, .d-plan-line { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
+.d-road.a { stroke: #4a463a; stroke-width: 1.6; } .d-road.b { stroke: #6b6655; stroke-width: 1; } .d-road.c { stroke: #6b6655; stroke-width: .6; } .d-road.s { stroke: #6b6655; stroke-width: .5; }
+.d-rail { stroke: var(--ink); stroke-width: .7; stroke-dasharray: 5 2; }
+.d-strip { fill: none; stroke: var(--strip); stroke-linejoin: round; }
+.d-sector { stroke: var(--ink); stroke-width: 1.4; stroke-dasharray: 8 3 2 3; }
+.d-wall { stroke: var(--ink); stroke-width: 2.6; pointer-events: stroke; cursor: pointer; }
+.d-rem { stroke: var(--stamp); stroke-width: 1.8; }
+.d-bld { fill: #8b8672; stroke: var(--ink); stroke-width: .7; vector-effect: non-scaling-stroke; cursor: pointer; }
+.d-us { fill: var(--us); } .d-gdrp { fill: var(--su); } .d-barrier { fill: var(--ink); } .d-signp { fill: var(--sheet); }
+.d-plan-line.line { stroke: var(--sheet); stroke-width: 3; } .d-plan-line.gate { stroke: var(--stamp); stroke-width: 2.5; stroke-dasharray: 5 3; }
+.d-plan-line.lane { stroke: var(--sheet); stroke-width: 1; stroke-dasharray: 5 5; } .d-plan-line.wall { stroke: var(--ink); stroke-width: 3; } .d-plan-line.fence { stroke: var(--ink); stroke-width: 1.5; }
+
+.mk { cursor: pointer; }
+.mk path { stroke: var(--sheet); stroke-width: .8; }
+.mk text { display: none; font: 7.5px var(--type); fill: var(--ink); stroke: var(--sheet); stroke-width: 2px; paint-order: stroke; }
+.near .mk text { display: block; }
+.mk.sel path { stroke: var(--stamp); stroke-width: 1.6; }
+.conf circle { fill: var(--sheet); stroke: var(--front); stroke-width: 1.2; }
+.conf path { stroke: var(--front); stroke-width: 1.2; }
+.conf text { fill: var(--front); }
+.mid .conf text { display: block; }
+.cap circle { fill: var(--sheet); stroke: var(--ink); stroke-width: .9; }
+.cap .dot { fill: var(--ink); stroke: none; }
+.cap text { font: 7px var(--body); font-weight: 600; }
+.mid .cap text { display: block; }
+.pl { cursor: pointer; }
+.pl text { font: 9px var(--type); fill: var(--ink); stroke: var(--sheet); stroke-width: 2.5px; paint-order: stroke; }
+.pl.title text { font: 600 13px var(--body); letter-spacing: .14em; text-transform: uppercase; text-anchor: middle; }
+.pl.street text { font: italic 8.5px var(--sea-type); fill: var(--muted); }
+.pl.cp text { font: 11px var(--type); fill: var(--stamp); }
+.pl.part text { font: 9px var(--type); }
+.pl path { stroke: var(--sheet); stroke-width: .8; }
+/* Centrali: trifoglio nero su disco giallo, come i cartelli, con etichetta più grande */
+.pl.nuke circle { fill: #f2c230; stroke: var(--ink); stroke-width: 1.2; }
+.pl.nuke path { stroke: none; transform: scale(1.8); }
+.pl.nuke text { font: 600 16px var(--body); stroke-width: 3.5px; }
+
+#tip { position: fixed; z-index: 5; max-width: 280px; padding: 6px 9px 4px; background: var(--sheet); border: 1px solid var(--ink); pointer-events: none; font-size: 14px; }
+#tip b { display: block; font: 14px var(--type); }
+#tip span { color: var(--muted); }
+
+#side { grid-row: 1 / 4; grid-column: 2; background: var(--sheet); border-left: 1px solid var(--ink); overflow-y: auto; display: flex; flex-direction: column;
+  padding-block: 16px; padding-left: 16px; padding-right: max(16px, env(safe-area-inset-right, 0px)); gap: 17px; position: relative; }
+#stampbox { position: relative; }
+.stamp { display: inline-block; margin-top: 8px; padding: 3px 8px 1px; border: 2px solid var(--stamp); color: var(--stamp); font: 13px var(--type); letter-spacing: .08em; transform: rotate(-2.5deg); opacity: .85; }
+h1 { margin: 0; font: 400 24px/1.1 var(--type); text-wrap: balance; }
+.sub { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+h2 { margin: 0 0 6px; padding-bottom: 2px; border-bottom: 1px solid var(--rule); font: 400 12px var(--type); letter-spacing: .06em; text-transform: uppercase; }
+.legend { display: grid; grid-template-columns: 18px 1fr auto; gap: 4px 8px; align-items: center; font-size: 14px; }
+.sw { width: 18px; height: 12px; border: 1px solid var(--ink); }
+.sw.c { background: repeating-linear-gradient(135deg, var(--c-a) 0 1.5px, var(--c-b) 1.5px 4.5px); }
+.sw.u { background: radial-gradient(circle, var(--U) 1px, var(--c-b) 1.3px) 0 0 / 4px 4px; }
+.sw.s { background: var(--s); } .sw.O { background: var(--O); }
+.n { font: 12px var(--type); color: var(--muted); }
+.checks { display: flex; flex-wrap: wrap; gap: 5px; }
+.chk { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px 2px 6px; border: 1px solid var(--rule); cursor: pointer; font-size: 13px; user-select: none; position: relative; }
+.chk input { position: absolute; opacity: 0; width: 0; height: 0; }
+.chk:has(input:checked) { background: var(--land); border-color: var(--ink); }
+.chk:has(input:not(:checked)) { color: var(--muted); text-decoration: line-through; }
+.chk:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 1px; }
+.chk svg { width: 11px; height: 11px; overflow: visible; }
+.group { display: grid; gap: 6px; }
+.pill { display: inline-block; padding: 0 6px; border: 1px solid var(--ink); font: 12px var(--type); }
+.pill.A { background: var(--A); } .pill.X { background: var(--X); color: var(--sheet); } .pill.O { background: var(--O); }
+.pill.U { background: var(--U); } .pill.u { background: var(--u); } .pill.S { background: var(--S); } .pill.s { background: var(--s); } .pill.N { background: var(--N); } .pill.c { background: var(--c-b); }
+#detail h3 { margin: 0 0 4px; font: 400 17px var(--type); }
+#detail p { margin: 5px 0; }
+.empty { color: var(--muted); font-size: 14px; margin: 0; }
+.hist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 2px; }
+.row { width: 100%; display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; text-align: left; padding: 2px 4px; background: none; border: 0; cursor: pointer; font-size: 14px; }
+.row:hover, .row.on { background: var(--land); }
+.row time { font: 12px var(--type); color: var(--muted); padding-top: 2px; }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.jump { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.jump button, #controls button, #controls select { background: var(--sheet); border: 1px solid var(--ink); padding: 3px 9px; cursor: pointer; font-size: 13px; }
+.jump button { flex: 1 1 40%; }
+.jump button:hover, #controls button:hover { background: var(--land); }
+.fine { color: var(--muted); font-size: 13px; margin: 0; }
+.fine a { color: inherit; }
+
+#time { grid-column: 1; background: var(--sheet); border-top: 1px solid var(--ink); display: flex; gap: 12px; align-items: stretch;
+  padding-block: 8px 6px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; }
+#controls { display: flex; gap: 5px; align-items: center; flex: none; }
+#play { width: 66px; }
+#track { position: relative; flex: 1; min-width: 0; height: 58px; }
+#chart { position: absolute; inset: 0 0 16px; width: 100%; height: 42px; display: block; border: 1px solid var(--ink); box-sizing: border-box; }
+#month { position: absolute; inset: 0 0 16px; width: 100%; height: 42px; margin: 0; appearance: none; -webkit-appearance: none; background: none; cursor: pointer; }
+#month::-webkit-slider-runnable-track { height: 42px; background: none; }
+#month::-moz-range-track { height: 42px; background: none; }
+#month::-webkit-slider-thumb { -webkit-appearance: none; width: 3px; height: 42px; background: var(--stamp); }
+#month::-moz-range-thumb { width: 3px; height: 42px; border: 0; border-radius: 0; background: var(--stamp); }
+#years { position: absolute; left: 0; right: 0; bottom: 0; height: 15px; font: 11px var(--type); color: var(--muted); }
+#years span { position: absolute; transform: translateX(-50%); }
+
+@media (max-width: 820px) {
+  html, body { height: auto; }
+  #app { height: auto; display: flex; flex-direction: column; }
+  #stage { height: 58svh; min-height: 300px; flex: none; }
+  #side { border-left: 0; border-top: 1px solid var(--ink); padding-left: max(16px, env(safe-area-inset-left, 0px)); overflow: visible; }
+  #time { flex-wrap: wrap; padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  #controls { width: 100%; justify-content: space-between; }
+  #track { flex-basis: 100%; }
+}
+</style>
+
+<div id="app">
+  <div id="stage">
+    <svg id="map" role="img" aria-label="Mappa del mondo con gli schieramenti della Guerra Fredda nel mese scelto">
+      <defs>
+        <pattern id="hatch" class="pat" width="4.5" height="4.5" patternUnits="userSpaceOnUse">
+          <rect width="4.5" height="4.5" fill="#e2dcc8"></rect><rect width="1.4" height="4.5" fill="#7f9fbb"></rect>
+        </pattern>
+        <pattern id="occ" class="pat" data-rot="45" width="4" height="4" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="#c9c5b4"></rect><rect width="1.8" height="4" fill="#5a574b"></rect>
+        </pattern>
+        <clipPath id="clip-710"><path></path></clipPath><clipPath id="clip-630"><path></path></clipPath><clipPath id="clip-731"><path></path></clipPath><clipPath id="clip-732"><path></path></clipPath>
+        <pattern id="tsov" class="pat" data-rot="-45" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="2" height="6" fill="#a3322a" fill-opacity=".7"></rect></pattern>
+        <pattern id="tconf" class="pat" data-rot="45" width="5" height="5" patternUnits="userSpaceOnUse"><rect width="1.6" height="5" fill="#a3322a"></rect></pattern>
+        <pattern id="dotU" class="pat" width="3.6" height="3.6" patternUnits="userSpaceOnUse">
+          <rect width="3.6" height="3.6" fill="#c6d2d6"></rect><circle cx="1.8" cy="1.8" r="1" fill="#6f92b1"></circle>
+        </pattern>
+        <pattern id="dotS" class="pat" width="3.6" height="3.6" patternUnits="userSpaceOnUse">
+          <rect width="3.6" height="3.6" fill="#ecd0c4"></rect><circle cx="1.8" cy="1.8" r="1" fill="#b96a56"></circle>
+        </pattern>
+      </defs>
+      <g id="world"><g id="osm-land"></g><g id="osm-under"></g><g id="base"></g><g id="halo"></g><path class="grat" id="grat"></path><g id="states"></g><path id="emplines"></path><g id="aral"><path id="aral-bed"></path><path id="aral-water"></path></g><g id="terr" class="terrg"></g><path id="landborders"></path><path id="osm-sea"></path><g id="water"><g id="lakes"></g><g id="rivers"></g></g><g id="sba"></g><g id="gib"><g id="gib-local"><path id="gib-sea"></path><path id="gib-spain"></path></g><path id="gib-rock" class="state col emp-uk"></path><path id="gib-border"></path></g><g id="osm-isl"></g><g id="terr-top" class="terrg"></g><g id="coasts"></g><g id="oceans"></g><g id="labels"></g><g id="lines"></g></g>
+      <g id="detail2" hidden></g>
+      <g id="overlay"><g id="vdist"></g><g id="flags"></g><g id="tests"></g><g id="capitals"></g><g id="battles"></g><g id="places"></g><g id="bases"></g><g id="confs"></g></g>
+    </svg>
+    <div id="date" aria-live="polite"></div>
+    <div id="zoom">
+      <button id="zin" aria-label="Ingrandisci" title="Ingrandisci">+</button>
+      <button id="zout" aria-label="Riduci" title="Riduci">−</button>
+      <button id="zreset" aria-label="Mostra tutto il mondo" title="Mostra tutto il mondo">⌂</button>
+    </div>
+    <div id="scale"><span id="scalet"></span><i id="scaleb"></i></div>
+    <div id="code"></div>
+  </div>
+
+  <div id="time">
+    <div id="controls">
+      <button id="play" aria-label="Avvia o ferma la riproduzione">▶ Play</button>
+      <button id="prev" aria-label="Mese precedente" title="Mese precedente (freccia sinistra)">‹</button>
+      <button id="next" aria-label="Mese successivo" title="Mese successivo (freccia destra)">›</button>
+      <select id="speed" aria-label="Velocità di riproduzione">
+        <option value="3">3 mesi/s</option><option value="6" selected>6 mesi/s</option><option value="12">12 mesi/s</option>
+      </select>
+    </div>
+    <div id="track">
+      <svg id="chart" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <input id="month" type="range" min="0" step="1" aria-label="Mese">
+      <div id="years"></div>
+    </div>
+  </div>
+
+  <section id="log" aria-live="polite"><h2 id="log-h"></h2><ul id="log-list"></ul></section>
+
+  <aside id="side">
+    <header id="stampbox">
+      <h1>Atlante della Guerra Fredda</h1>
+      <p class="sub">Gennaio 1945 – dicembre 1991, mese per mese, con i confini dell'epoca.</p>
+      <span class="stamp">RICOSTRUZIONE STORICA</span>
+    </header>
+    <section><h2>Vai a</h2><div class="jump" id="goto"></div></section>
+    <section><h2>Schieramenti <span id="total"></span></h2><div class="legend" id="legend"></div></section>
+    <section id="testsec"><h2>Test nucleari del mese</h2><div id="test-now"></div><ul class="list" id="test-list"></ul></section>
+    <section><h2>Lago d'Aral</h2><div id="aral-now"></div><div class="bar"><i id="aral-bar"></i></div></section>
+    <section id="empsec"><h2>Imperi coloniali, territori</h2><div class="legend" id="emplegend"></div></section>
+    <section id="detail" aria-live="polite"><h2>Scheda</h2><p class="empty">Clicca uno Stato, una base o una linea sulla mappa.</p></section>
+    <section><h2 id="evh">Questo mese</h2><ul class="list" id="events"></ul>
+      <div class="jump"><button id="evprev">‹ Cambio precedente</button><button id="evnext">Cambio successivo ›</button></div>
+    </section>
+    <section><h2>Linee e conflitti in corso</h2><ul class="list" id="active"></ul></section>
+    <section class="group"><h2>Livelli</h2><div class="checks" id="layers"></div>
+      <h2 style="margin-top:6px">Basi: chi le gestisce</h2><div class="checks" id="owners"></div>
+      <h2 style="margin-top:6px">Basi: tipo <span class="n" id="bcount"></span></h2><div class="checks" id="types"></div>
+      <h2 style="margin-top:6px">Basi: mostra solo</h2><div class="checks" id="bfilter"></div></section>
+    <p class="fine">Pagina ricostruita, non un documento d'archivio. Confini: <a href="https://icr.ethz.ch/data/cshapes/" target="_blank" rel="noopener">CShapes 2.0</a> (CC BY-NC-SA). Muro, acque ed edifici: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>, ODbL; le strade di Alpha e Bravo sono quelle di oggi. Da vicino, coste e confini rimasti uguali usano Natural Earth 10m; quelli scomparsi restano CShapes, con un punto ogni 4 km circa. Test nucleari: SIPRI tramite Tidy Tuesday. Coste da 30x: OpenStreetMap, poligoni semplificati. Elezioni: ParlGov, per una quarantina di democrazie. Capi di Stato e foto: Wikidata e Wikimedia Commons, solo per una parte degli Stati; altrove leader effettivi da Archigos 4.1. Eventi, battaglie, IRBM e depositi nucleari: compilazione non verificata. Laghi e fiumi: Natural Earth 10m; i bacini artificiali solo dove so la data. Linee moderne: Natural Earth. I contorni del lago d'Aral dopo il 1960 sono stimati, non osservati. Schieramenti, fronti di Corea e basi sono una compilazione non verificata su fonti; la scheda di ogni linea dice da dove arriva il tracciato.</p>
+  </aside>
+</div>
+<div id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="borders.js"></script>
+<script src="lines.js"></script>
+<script src="data.js"></script>
+<script src="fronts.js"></script>
+<script src="empires.js"></script>
+<script src="aral.js"></script>
+<script src="capitals.js"></script>
+<script src="land_index.js"></script>
+<script src="gibraltar.js"></script>
+<script src="extras.js"></script>
+<script src="territories.js"></script>
+<script src="micro.js"></script>
+<script src="ww2.js"></script>
+<script>window.LINES_WW2();</script>
+<script src="fronts2.js"></script>
+<script src="tests.js"></script>
+<script src="elections.js"></script>
+<script src="gorizia.js"></script>
+<script src="nuclear.js"></script>
+<script src="panama.js"></script>
+<script src="ww2atlas.js"></script>
+<script src="ww2pacific.js"></script>
+<script src="fronts45.js"></script>
+<script src="vietnam.js"></script>
+<script src="afghanistan.js"></script>
+<script src="ogaden.js"></script>
+<script src="chinawar.js"></script>
+<script src="sands.js"></script>
+<script src="lines_fix.js"></script>
+<script src="occupation.js"></script>
+<script src="leaders.js"></script>
+<script>
+const W = 1000, H = 470;
+const START = 1945 * 12, END = 1991 * 12 + 11;
+const MAX_K = 400000, WORLD_K = 2500, DETAIL_K = 40;
+const MONTHS = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+const ym = s => { const [y, m] = s.split("-").map(Number); return y * 12 + m - 1; };
+const fmt = m => `${MONTHS[m % 12]} ${Math.floor(m / 12)}`;
+const short = m => `${String(m % 12 + 1).padStart(2, "0")}/${Math.floor(m / 12)}`;
+const STATUS = {
+  U: "Trattato con gli USA", u: "Vicino agli USA", c: "Colonia occidentale",
+  A: "Alleati", X: "Asse", O: "Occupato dall'Asse",
+  N: "Non allineato", s: "Vicino all'URSS", S: "Trattato con l'URSS"
+};
+const ORDER = ["A", "U", "u", "c", "N", "s", "S", "O", "X"];
+const OWNERS = { us: "USA / NATO", su: "URSS", uk: "Regno Unito", fr: "Francia", cn: "Cina" };
+const TYPES = { air: "Aerea", naval: "Navale", army: "Terrestre", missile: "Missili", irbm: "IRBM e crociera", intel: "Radar e ascolto", test: "Test e armi" };
+const SHAPES = {
+  air: "M0-4 3.6 2.6H-3.6Z", naval: "M0-4 3.6 0 0 4-3.6 0Z", army: "M-3-3H3V3H-3Z",
+  missile: "M0-4.6 1.2-1.2 4.6 0 1.2 1.2 0 4.6-1.2 1.2-4.6 0-1.2-1.2Z",
+  irbm: "M0-5 1.6-1.5V3L3 4.5H-3L-1.6 3V-1.5Z",
+  intel: "M3.2 0A3.2 3.2 0 1 1-3.2 0 3.2 3.2 0 1 1 3.2 0Z",
+  test: "M-1.2-4H1.2V-1.2H4V1.2H1.2V4H-1.2V1.2H-4V-1.2H-1.2Z"
+};
+const OWNER_COLOR = { us: "var(--us)", su: "var(--su)", uk: "var(--uk)", fr: "var(--fr)", cn: "var(--cn)" };
+const OCEANS = [["Oceano Atlantico", -35, 28, 6], ["Oceano Pacifico", -140, 8, 6], ["Oceano Pacifico", 165, 22, 4.5], ["Oceano Indiano", 80, -28, 6], ["Oceano Artico", -20, 80, 4]];
+
+// Dati
+const ALIGN = {};
+for (const [code, text] of Object.entries(window.ALIGN)) {
+  const [name, ...rest] = text.split("|");
+  ALIGN[code] = { name, periods: rest.map(r => {
+    const a = r.indexOf(" "), b = r.indexOf(" ", a + 1);
+    return { m: ym(r.slice(0, a)), st: r.slice(a + 1, b), note: r.slice(b + 1) };
+  }) };
+}
+const nameAt = (code, m) => code === 365 && m >= ym("1991-12") ? "Russia" : (code === 731 || code === 732) && m < ym("1945-09") ? "Corea" :
+  code === 265 && m >= ym("1945-05") && m < ym("1949-10") ? "Zona sovietica" : code === 260 && m >= ym("1945-05") && m < ym("1949-05") ? "Zone occidentali" : ALIGN[code].name;
+const statusAt = (code, m) => {
+  const a = ALIGN[code]; if (!a) return null;
+  let cur = null;
+  for (const p of a.periods) if (p.m <= m) cur = p;
+  return cur;
+};
+const COLONIAL = {};
+for (const [code, text] of Object.entries(window.COLONIAL)) {
+  const [e, unit, ...later] = text.split("|");
+  const periods = [{ m: -Infinity, e, unit }];
+  for (let i = 0; i < later.length; i += 2) { const [when, e2] = later[i].split(" "); periods.push({ m: ym(when), e: e2, unit: later[i + 1] }); }
+  COLONIAL[code] = periods;
+}
+// Restituisce impero e unità solo mentre il territorio è davvero una colonia
+function colonyAt(code, m) {
+  const s = statusAt(code, m);
+  if (!s || s.st !== "c" || !COLONIAL[code]) return null;
+  let cur = null;
+  for (const p of COLONIAL[code]) if (p.m <= m) cur = p;
+  return cur;
+}
+const LINES = window.LINES.map(l => ({ ...l, kind: "line", a: ym(l.from), b: ym(l.to), segs: l.geo ? LINE_GEO[l.geo] : [l.p] }));
+const CONFS = window.CONFLICTS.map(c => ({ ...c, kind: "conf", a: ym(c.from), b: ym(c.to) }));
+// Le vecchie voci di missili vengono sostituite dall'elenco IRBM, che ha le stesse località con più dati
+const IRBM_DUP = new Set(["Feltwell", "Gioia del Colle", "Çiğli, Smirne", "Mutlangen", "Comiso", "San Cristóbal", "Guanajay", "Greenham Common"]);
+const BASES = [
+  ...[...window.BASES.filter(b => !IRBM_DUP.has(b[0])), ...window.EXTRA_BASES].map(([n, lat, lon, owner, type, from, to, note, nuke, sov]) => {
+    const f = window.BASE_FLAGS[n] || [];
+    const end = to || (window.BASE_END || {})[n];
+    return { kind: "base", n, lat, lon, owner, type, note, a: ym(from), b: end ? ym(end) : Infinity, nuke: !!(nuke || f[0]), sov: !!(sov || f[1]) };
+  }),
+  ...window.IRBM.map(([n, lat, lon, owner, model, from, to]) => ({ kind: "base", n, lat, lon, owner, type: "irbm", note: `Modello: ${model}.`, a: ym(from), b: ym(to), nuke: true, sov: false })),
+];
+const BATTLES = window.BATTLES.map(([n, from, to, lat, lon, d]) => ({ kind: "conf", n, a: ym(from), b: ym(to), lat, lon, d, src: "Compilazione a memoria, non verificata" }));
+const TEST_BY_M = new Map();
+for (const [when, day, country, name, region, lat, lon, lo, hi, kind, purpose] of window.TESTS) {
+  const m = ym(when); if (!TEST_BY_M.has(m)) TEST_BY_M.set(m, []);
+  TEST_BY_M.get(m).push({ kind: "test", m, day, country, n: name, region, lat, lon, lo, hi, type: kind, purpose });
+}
+const COUNTRY_IT = { USA: "USA", USSR: "URSS", UK: "Regno Unito", FRANCE: "Francia", CHINA: "Cina", INDIA: "India", PAKIST: "Pakistan" };
+const fmtYield = t => { const v = t.hi || t.lo; if (!v) return "potenza non nota"; const f = x => x >= 1000 ? `${+(x / 1000).toFixed(x >= 10000 ? 0 : 1)} Mt` : `${x < 10 ? +x.toFixed(1) : Math.round(x)} kt`; return t.lo && t.lo !== t.hi ? `${f(t.lo)} – ${f(t.hi)}` : t.hi && !t.lo ? `fino a ${f(t.hi)}` : f(v); };
+const testText = t => `${COUNTRY_IT[t.country] || t.country}, ${fmtYield(t)}, ${String(t.day).padStart(2, "0")}/${short(t.m)}, ${t.region} (${t.type})`;
+const ELEC = {};
+for (const [code, date, total, parties] of window.ELECTIONS) (ELEC[code] = ELEC[code] || []).push({ date, m: ym(date.slice(0, 7)), total, parties });
+const electionAt = (code, m) => { let cur = null; for (const e of ELEC[code] || []) if (e.m <= m) cur = e; return cur; };
+const LEADER = {};
+const ROC_ONLY = /Chiang|Yen Chia|Yan Jiagan|Lee Teng|Li Teng|Li Tsung|Lee Tsung|Li Zongren|Sun Fo|Sun Ke|He Yingqin|Yan Xishan|Chen Cheng|Yu Hung|Yu Hongjun/;
+for (const [c, s, e, n, h, kind, w] of window.LEADERS || []) if (!(c === 710 && ym(s) >= ym("1949-10") && ROC_ONLY.test(n))) (LEADER[c] = LEADER[c] || []).push({ a: ym(s), b: e ? ym(e) : Infinity, n, h, kind, w });
+const leaderOf = (code, m, kind) => { let cur = null; for (const l of LEADER[code] || []) if (l.kind === kind && l.a <= m && m <= l.b && (!cur || l.a >= cur.a)) cur = l; return cur; };
+// Capo di Stato e capo del governo; il leader effettivo di Archigos riempie quello che manca e non si ripete
+function leadersAt(code, m) {
+  const h = leaderOf(code, m, "h"), g = leaderOf(code, m, "g"), l = leaderOf(code, m, "l");
+  const out = [];
+  if (h) out.push({ ...h, role: "Capo di Stato" });
+  const same = (x, y) => x.n === y.n || (x.w && x.w === y.w);
+  if (g && (!h || !same(g, h))) out.push({ ...g, role: code === 2 ? "Presidente" : h ? "Primo ministro" : "Capo del governo" });
+  const lastOf = n => n.split(" ").pop().toLowerCase();
+  if (l && !out.some(o => same(o, l) || lastOf(o.n) === lastOf(l.n))) out.push({ ...l, role: "Leader effettivo" });
+  return out;
+}
+const leaderAt = (code, m) => leadersAt(code, m)[0];
+let photosState = 0;
+function loadPhotos() { if (photosState) return; photosState = 1; const s = document.createElement("script"); s.src = "photos.js"; s.onload = () => { photosState = 2; render(); }; s.onerror = () => { photosState = 3; }; document.head.append(s); }
+const LOG = new Map();
+for (const [when, text] of window.EVENT_LOG) { const m = ym(when); if (!LOG.has(m)) LOG.set(m, []); LOG.get(m).push(text); }
+const LOG_MONTHS = [...LOG.keys()].sort((a, b) => a - b);
+const COAST_CODE = { Aden: [[0, 681], [ym("1967-11"), 680]], "Cam Ranh": [[0, 815], [ym("1954-05"), 817], [ym("1975-05"), 816]], "Da Nang": [[0, 815], [ym("1954-05"), 817], [ym("1975-05"), 816]], Singapore: [[0, 827], [ym("1946-04"), 830]], "Pearl Harbor": [[0, 4], [ym("1959-08"), 2]] };
+function coastClass(p, m) {
+  if (p.n === "Hong Kong") return "state coast-land col emp-uk";
+  let code = p.c;
+  for (const [from, c] of COAST_CODE[p.n] || []) if (from <= m) code = c;
+  const col = colonyAt(code, m), s = statusAt(code, m);
+  return `state coast-land ${col ? `col emp-${col.e}` : s ? `st-${s.st}` : "land"}`;
+}
+const CPS = Object.entries(window.CHECKPOINTS).map(([id, c]) => ({ ...c, id, kind: "cp", a: ym(c.from), b: ym(c.to) }));
+const CAPITALS = window.CAPITALS.map(([code, a, b, n, lat, lon]) => ({ code, a, b, n, lat, lon }));
+const WALL_A = ym("1961-08"), WALL_B = ym("1989-11"), UNITY = ym("1990-10");
+const ALPHA_NEW = ym("1974-01"), BRAVO_NEW = ym("1969-11");
+
+const features = topojson.feature(BORDERS, BORDERS.objects.states).features;
+const proj = d3.geoNaturalEarth1().rotate([-11, 0]).fitExtent([[6, 6], [W - 6, 530]], { type: "Sphere" });
+const geo = d3.geoPath(proj).digits(3);
+const lineGeo = l => ({ type: "MultiLineString", coordinates: l.segs });
+
+// Stati assorbiti da una riunificazione: CShapes li tiene attivi fino a tutto il mese dell'unione
+const ABSORBED = { 255: ym("1945-05"), 730: ym("1945-08"), 7351: ym("1945-08"), 713: ym("1945-08"), 265: ym("1990-10"), 680: ym("1990-05") };
+function activeFeatures(m) {
+  const best = new Map();
+  for (const f of features) {
+    const p = f.properties;
+    if (p.s <= m && m <= p.e && !(m >= ABSORBED[p.c] && p.s < ABSORBED[p.c]) && (!best.has(p.c) || best.get(p.c).properties.s < p.s)) best.set(p.c, f);
+  }
+  return best;
+}
+/* Due livelli di confini: quelli leggeri per il mondo intero, quelli fini (borders-hi.js) da 6x in poi.
+   Da vicino si disegnano solo gli Stati in vista, così il pan resta fluido. */
+let LEVEL = "lo", hiLoading = false;
+function pathOf(f) {
+  if (LEVEL === "hi" && f._hi) return f._dh || (f._dh = geo(f._hi) || "");
+  return f._d || (f._d = geo(f) || "");
+}
+function loadHi() {
+  if (hiLoading) return; hiLoading = true;
+  const s = document.createElement("script"); s.src = "borders-hi.js";
+  s.onload = () => {
+    const hi = topojson.feature(BORDERS_HI, BORDERS_HI.objects.states).features, geoms = BORDERS_HI.objects.states.geometries;
+    const byId = new Map(hi.map((f, i) => [`${f.properties.c}-${f.properties.s}`, i]));
+    features.forEach(f => { const i = byId.get(`${f.properties.c}-${f.properties.s}`); f._hi = hi[i]; f._gh = geoms[i]; });
+    if (state.k >= 6) { LEVEL = "hi"; render(); }
+  };
+  s.onerror = () => { hiLoading = false; };
+  document.head.append(s);
+}
+function updateLevel() {
+  const k = state.k, next = k >= 6 ? "hi" : k < 5 ? "lo" : LEVEL;
+  if (next === "hi" && !window.BORDERS_HI) { loadHi(); return; }
+  if (next !== LEVEL) { LEVEL = next; render(); }
+}
+function applyPaths() {
+  const t = state.t, [x0, y0] = t.invert([0, 0]), [x1, y1] = t.invert([W, H]), mx = (x1 - x0) * .8, my = (y1 - y0) * .8;
+  d3.selectAll("#base path, #states path").each(function (f) {
+    // Il riquadro viene dalla versione fine: ha isole che quella leggera non ha
+    const b = f._hi ? (f._bbh || (f._bbh = geo.bounds(f._hi))) : (f._bb || (f._bb = geo.bounds(f)));
+    const vis = LEVEL === "lo" || !(b[1][0] < x0 - mx || b[0][0] > x1 + mx || b[1][1] < y0 - my || b[0][1] > y1 + my);
+    this.setAttribute("display", vis ? "inline" : "none");
+    if (vis && this.__lvl !== LEVEL) { this.setAttribute("d", pathOf(f)); this.__lvl = LEVEL; }
+  });
+}
+function labelOf(f) {
+  if (f._l) return f._l;
+  // L'etichetta va sul poligono più grande, non sul baricentro di tutto lo Stato
+  let bestPoly = null, bestArea = -1;
+  for (const c of f.geometry.coordinates) {
+    const g = { type: "Polygon", coordinates: c }, a = geo.area(g);
+    if (a > bestArea) { bestArea = a; bestPoly = g; }
+  }
+  const [x, y] = geo.centroid(bestPoly), b = geo.bounds(bestPoly);
+  return f._l = { x, y, w: b[1][0] - b[0][0], h: b[1][1] - b[0][1] };
+}
+
+// Imperi: un retino per impero, nessun confine interno, solo il contorno esterno
+const stateGeoms = BORDERS.objects.states.geometries;
+features.forEach((f, i) => { f._g = stateGeoms[i]; });
+(function empirePatterns() {
+  const defs = d3.select("#map defs"); let css = "";
+  for (const [id, e] of Object.entries(window.EMPIRES)) {
+    const p = defs.append("pattern").attr("id", `emp-${id}`).attr("class", "pat").attr("data-rot", e.rot).attr("width", 4.5).attr("height", 4.5).attr("patternUnits", "userSpaceOnUse");
+    p.append("rect").attr("width", 4.5).attr("height", 4.5).attr("fill", "#e2dcc8");
+    p.append("rect").attr("width", 1.5).attr("height", 4.5).attr("fill", e.color);
+    css += `.state.col.emp-${id},.terrg .emp-${id},#osm-isl .emp-${id},#osm-under .emp-${id}{fill:url(#emp-${id});}.state.col.emp-${id}{stroke:url(#emp-${id});}`;
+  }
+  const st = document.createElement("style"); st.textContent = css; document.head.append(st);
+})();
+const meshCache = new Map(), labelCache = new Map();
+function empireLines(active, m) {
+  const hi = LEVEL === "hi", geomOf = f => hi ? f._gh : f._g;
+  const key = LEVEL + active.map(f => { const c = colonyAt(f.properties.c, m); return f._id + (c ? c.e : ""); }).join();
+  if (meshCache.has(key)) return meshCache.get(key);
+  const owner = new Map(active.map(f => { const c = colonyAt(f.properties.c, m); return [geomOf(f), c ? c.e : null]; }));
+  const mesh = topojson.mesh(hi ? BORDERS_HI : BORDERS, { type: "GeometryCollection", geometries: active.map(geomOf) }, (a, b) => {
+    const ea = owner.get(a), eb = owner.get(b);
+    return (ea || eb) && (a === b || ea !== eb);
+  });
+  const d = geo(mesh) || "";
+  meshCache.set(key, d);
+  return d;
+}
+function labelItems(active, m) {
+  const items = [], units = new Map();
+  for (const f of active) {
+    const code = f.properties.c, c = colonyAt(code, m);
+    if (c) { if (!units.has(c.unit)) units.set(c.unit, []); units.get(c.unit).push(f); }
+    else if (ALIGN[code]) items.push({ id: f._id + nameAt(code, m), name: nameAt(code, m), ...labelOf(f) });
+  }
+  for (const [unit, fs] of units) {
+    const id = unit + fs.map(f => f._id).join();
+    if (!labelCache.has(id)) {
+      const merged = topojson.merge(BORDERS, fs.map(f => f._g));
+      let best = null, area = -1;
+      for (const c of merged.coordinates) { const g = { type: "Polygon", coordinates: c }, a = geo.area(g); if (a > area) { area = a; best = g; } }
+      const [x, y] = geo.centroid(best), b = geo.bounds(best);
+      labelCache.set(id, { id, name: unit, x, y, w: b[1][0] - b[0][0], h: b[1][1] - b[0][1] });
+    }
+    items.push(labelCache.get(id));
+  }
+  return items;
+}
+
+// Mappa
+const svg = d3.select("#map").attr("viewBox", `0 0 ${W} ${H}`);
+const world = d3.select("#world"), overlay = d3.select("#overlay");
+const latest = new Map();
+for (const f of features) if (!latest.has(f.properties.c) || latest.get(f.properties.c).properties.e < f.properties.e) latest.set(f.properties.c, f);
+d3.select("#base").selectAll("path").data([...latest.values()]).join("path").attr("class", "land");
+d3.select("#grat").attr("d", geo(d3.geoGraticule10()));
+d3.select("#oceans").selectAll("text").data(OCEANS).join("text").attr("class", "ocean")
+  .attr("x", d => proj([d[1], d[2]])[0]).attr("y", d => proj([d[1], d[2]])[1]).attr("font-size", d => d[3]).text(d => d[0]);
+
+const state = { m: ym("1945-01"), k: 1, t: d3.zoomIdentity, sel: null, layers: { lines: true, confs: true, battles: true, tests: true, bases: true, cps: true, aral: true, caps: true, nuke: true }, nukeOnly: false, sovOnly: false, owners: new Set(Object.keys(OWNERS)), types: new Set(Object.keys(TYPES)) };
+const tip = document.getElementById("tip");
+function showTip(ev, title, sub) {
+  if (ev.pointerType === "touch") return;
+  tip.innerHTML = ""; const b = document.createElement("b"); b.textContent = title; tip.append(b);
+  if (sub) { const s = document.createElement("span"); s.textContent = sub; tip.append(s); }
+  tip.hidden = false;
+  const x = Math.min(ev.clientX + 14, innerWidth - tip.offsetWidth - 8), y = Math.min(ev.clientY + 14, innerHeight - tip.offsetHeight - 8);
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+const hideTip = () => { tip.hidden = true; };
+
+/* Planimetria. Il SVG usa float a 32 bit: oltre k≈2500 le coordinate del mondo tremano.
+   Qui i punti stanno in un sistema locale ancorato sulla Germania e ingrandito di S volte. */
+const ANCHOR = proj([12.2, 52.3]), S = 1000;
+const local = ([lon, lat]) => { const [x, y] = proj([lon, lat]); return [(x - ANCHOR[0]) * S, (y - ANCHOR[1]) * S]; };
+const dec = a => { const out = []; let x = 0, y = 0; for (let i = 0; i < a.length; i += 2) { x += a[i]; y += a[i + 1]; out.push([x / 1e6, y / 1e6]); } return out; };
+const dOf = (pts, close) => "M" + pts.map(p => { const [x, y] = local(p); return x.toFixed(2) + "," + y.toFixed(2); }).join("L") + (close ? "Z" : "");
+const dEnc = (a, close) => dOf(dec(a), close);
+const dAll = (list, close) => list.map(a => dEnc(a, close)).join("");
+const atM = (o, dx, dy) => [o[0] + dx / (111320 * Math.cos(o[1] * Math.PI / 180)), o[1] + dy / 111320];
+let detailReady = false, detailLoading = false, pendingFocus = null;
+// Costruire la planimetria blocca la pagina per un attimo: il volo parte solo quando è pronta
+function afterDetail(fn) { if (detailReady) fn(); else { pendingFocus = fn; loadDetail(); } }
+const d2 = d3.select("#detail2");
+const mPerUnit = (() => { const a = proj.invert([ANCHOR[0], ANCHOR[1]]), b = proj.invert([ANCHOR[0] + 1, ANCHOR[1]]); return d3.geoDistance(a, b) * 6371000; })();
+
+function loadDetail() {
+  if (detailLoading) return; detailLoading = true;
+  const s = document.createElement("script"); s.src = "detail.js";
+  s.onload = () => { buildDetail(); detailReady = true; render(); if (pendingFocus) { pendingFocus(); pendingFocus = null; } };
+  s.onerror = () => { detailLoading = false; };
+  document.head.append(s);
+}
+function buildDetail() {
+  const D = window.DETAIL, ring = dec(D.wall), o = window.CHECKPOINTS.charlie.origin;
+  const add = (parent, cls, d) => parent.append("path").attr("class", cls).attr("d", d);
+  const regional = d2.append("g").attr("id", "d-regional");
+  const fill = code => { const f = features.find(x => x.properties.c === code && x.properties.e > ym("1970-01")); return geoLocal(f._hi || f); };
+  add(regional, "state d-frg", fill(260)).attr("id", "d-frg"); add(regional, "state d-gdr", fill(265)).attr("id", "d-gdr");
+  const unified = features.find(x => x.properties.c === 260 && x.properties.s >= UNITY);
+  add(regional, "state d-frg", geoLocal(unified._hi || unified)).attr("id", "d-unified");
+  buildDetailTerr(regional, geoLocal(unified._hi || unified));
+  // Berlino Ovest sul confine legale dei tre settori occidentali (il Muro, più sotto, correva in territorio DDR, a volte centinaia di metri più in là)
+  const wg = d2.append("g").attr("id", "d-west").on("pointermove", ev => showTip(ev, "Berlino Ovest", "")).on("pointerleave", hideTip);
+  for (const x of TERRITORIES.filter(x => /^Berlino, settore (americano|britannico|francese)/.test(x.n) && x.to === "1990-09"))
+    add(wg, "d-west d-wline", x.rings.map(r => dOf(r, true)).join("")).attr("clip-path", x.clipKey ? dClip(x.clipKey) : null);
+  for (const x of TERRITORIES.filter(x => x.look === "t-edge"))  // bordo dei settori ritagliati (Staaken Ovest)
+    add(wg, "d-wline d-edge", x.rings.map(r => dOf(r, true)).join("")).attr("clip-path", dClip(x.clipKey));
+  const w = d2.append("g").attr("id", "d-water");
+  add(w, "d-water", dAll(D.water, true)); add(w, "d-river", dAll(D.rivers));
+  const walled = d2.append("g").attr("id", "d-walled");
+  walled.append("path").attr("class", "d-strip lv").attr("data-min", 600).attr("d", dEnc(D.strip)).attr("stroke-width", 45 / mPerUnit * S);
+  add(d2, "d-sector", dOf(ring, true)).attr("id", "d-sector");
+  add(walled, "d-rem lv", dAll(D.remains)).attr("data-min", 800);
+  add(walled, "d-wall", dOf(ring, true)).on("pointermove", ev => showTip(ev, "Muro di Berlino", "Tracciato da OpenStreetMap, 155 km")).on("pointerleave", hideTip)
+    .on("click", () => select(WALL_ITEM));
+
+  const bld = (g, b) => {
+    add(g, "d-bld", dEnc(b.p, true)).on("pointermove", ev => { if (b.n) showTip(ev, b.n, ""); }).on("pointerleave", hideTip);
+    if (b.n) PLABELS.push({ n: b.n, c: "part", min: 22000, lon: dec(b.p)[0][0], lat: dec(b.p)[0][1], group: g.attr("id") });
+  };
+  const alpha = d2.append("g").attr("id", "p-alpha").attr("class", "lv").attr("data-min", 800);
+  add(alpha, "d-road b", dAll(D.alpha.r));
+  D.alpha.b.forEach(b => bld(alpha, b));
+  const bravo = d2.append("g").attr("id", "p-bravo").attr("class", "lv").attr("data-min", 800);
+  add(bravo, "d-road b", dAll(D.bravo.r));
+  D.bravo.b.forEach(b => bld(bravo, b));
+  const old = d2.append("g").attr("id", "p-bravo-old").attr("class", "lv").attr("data-min", 800);
+  add(old, "d-road a", dAll(D.bravoOld));
+  PLABELS.push({ n: "Vecchio valico di Dreilinden", c: "part", min: 3000, lon: 13.1683, lat: 52.3972, group: "p-bravo-old" });
+
+  const ch = d2.append("g").attr("id", "p-charlie").attr("class", "lv").attr("data-min", 3000);
+  const CK = { us: "d-bld d-us", gdr: "d-bld d-gdrp", barrier: "d-bld d-barrier", sign: "d-bld d-signp" };
+  // Lo schema è ruotato per seguire Friedrichstraße e Zimmerstraße, che non corrono esattamente nord-sud ed est-ovest
+  const rot = window.CHECKPOINTS.charlie.rot * Math.PI / 180;
+  const atR = (dx, dy) => atM(o, dx * Math.cos(rot) - dy * Math.sin(rot), dx * Math.sin(rot) + dy * Math.cos(rot));
+  for (const p of window.CHECKPOINTS.charlie.parts) {
+    let sel;
+    if (p.rect) { const [a, b, c, e] = p.rect; sel = add(ch, CK[p.k], dOf([atR(a, b), atR(c, b), atR(c, e), atR(a, e)], true)); }
+    else sel = add(ch, `d-plan-line ${p.k}`, dOf(p.line.map(q => atR(q[0], q[1]))));
+    if (p.n) {
+      const c = atR(p.lab[0], p.lab[1]);
+      sel.on("pointermove", ev => showTip(ev, p.n, "Schema indicativo")).on("pointerleave", hideTip);
+      PLABELS.push({ n: p.n, c: "part", min: 25000, lon: c[0], lat: c[1], group: "p-charlie", anchor: p.lab[2] });
+    }
+  }}
+/* Oltre 2500x la carta mondiale si spegne: qui si ridisegnano, nel sistema locale, la Germania come fondo e sopra
+   zone, settori di Berlino e RFT/RDT con gli stessi poligoni OSM/OHM di #terr, colorati mese per mese. */
+let dGermany = "";
+const dClips = {};
+function dClip(key) {
+  const id = `dclip-${key}`;
+  if (!dClips[key]) dClips[key] = d2.append("clipPath").attr("id", id).append("path")
+    .attr("d", key === "germanyAll" ? dGermany : (window.TERR_CLIPS?.[key] || []).map(r => dOf(r, true)).join(""));
+  return `url(#${id})`;
+}
+function buildDetailTerr(regional, germanyD) {
+  dGermany = germanyD;
+  const tg = regional.append("g").attr("id", "d-tg").attr("class", "terrg").style("pointer-events", "none");
+  const clipOf = dClip;
+  tg.append("path").attr("id", "d-bg").attr("d", germanyD);
+  tg.selectAll("path.dt").data(TERRITORIES.filter(x => x.clipKey || /^Berlino, settore/.test(x.n)).sort((p, q) => (p.z || 0) - (q.z || 0))).join("path")
+    .attr("class", "dt").attr("d", x => x.rings.map(r => dOf(r, true)).join("")).attr("clip-path", x => x.clipKey ? clipOf(x.clipKey) : null);
+}
+// I retini sono in unità della carta mondiale: nel sistema locale servono copie con la loro scala (vedi updatePatterns)
+function localPat() {
+  this.style.fill = "";
+  const mm = /url\(["']?[^#"')]*#([^"')]+)/.exec(getComputedStyle(this).fill);
+  if (!mm) return;
+  const id = mm[1];
+  if (!document.getElementById(id + "-L")) {
+    const src = document.getElementById(id); if (!src) return;
+    const c = src.cloneNode(true); c.id = id + "-L"; c.classList.remove("pat"); c.classList.add("patL");
+    if (id === "hatch") c.setAttribute("data-rot", 45);
+    src.parentNode.appendChild(c); updatePatterns();
+  }
+  this.style.fill = `url(#${id}-L)`;
+}
+function renderDetailTerr(m, klass) {
+  d3.select("#d-bg").attr("class", "tf " + klass({ code: 260 })).each(localPat);
+  d3.selectAll("#d-tg path.dt").attr("display", x => x.a <= m && m <= x.b ? null : "none").filter(x => x.a <= m && m <= x.b)
+    .attr("class", x => "dt tf " + klass(x)).each(localPat);
+}
+function geoLocal(f) {
+  let d = "";
+  const stream = d3.geoTransform({ point(x, y) { this.stream.point((x - ANCHOR[0]) * S, (y - ANCHOR[1]) * S); } });
+  const chain = { stream: s => proj.stream(stream.stream(s)) };
+  d = d3.geoPath(chain).digits(2)(f);
+  return d || "";
+}
+const WALL_ITEM = { kind: "wall", n: "Muro di Berlino", a: WALL_A, b: WALL_B, d: "155 km attorno a Berlino Ovest, dal 13 agosto 1961 al 9 novembre 1989. Il tratto nero è il muro frontale, la fascia a est è la striscia della morte con larghezza indicativa di 90 metri, i tratti rossi sono le parti di muro ancora mappate oggi.", src: "OpenStreetMap, relazione del tracciato storico" };
+const PLABELS = [];
+const PLACES = window.PLACES.map(p => ({ ...p, a: p.from ? ym(p.from) : -Infinity, b: p.to ? ym(p.to) : Infinity }));
+
+function render() {
+  const m = state.m;
+  const best = activeFeatures(m), active = [...best.values()];
+  d3.select("#date").text(fmt(m));
+  d3.select("#code").text(`CARTA ${Math.floor(m / 12)}-${String(m % 12 + 1).padStart(2, "0")}`);
+  document.getElementById("month").value = m - START;
+
+  // I piccoli sopra i grandi: un vicino disegnato dopo coprirebbe lo Stato nato dentro i suoi vecchi contorni (il Brunei nel 1984)
+  d3.select("#states").selectAll("path").data(active, f => f._id || (f._id = `${f.properties.c}-${f.properties.s}`))
+    .join("path")
+    .sort((a, b) => (b._ga ?? (b._ga = d3.geoArea(b))) - (a._ga ?? (a._ga = d3.geoArea(a))))
+    .attr("class", f => {
+      const code = f.properties.c, s = statusAt(code, m), col = colonyAt(code, m);
+      const look = col ? ` col emp-${col.e}` : s ? " st-" + s.st : "";
+      return `state${look}${state.sel && state.sel.kind === "state" && state.sel.code === code ? " sel" : ""}`;
+    })
+    .on("pointermove", (ev, f) => {
+      const c = f.properties.c, s = statusAt(c, state.m), col = colonyAt(c, state.m);
+      if (!col && s) {
+        const ls = leadersAt(c, state.m), e = electionAt(c, state.m);
+        const elec = e ? ` Elezioni ${e.date.slice(0, 4)}: ${e.parties.slice(0, 3).map(p => `${p[0]}${p[2] != null ? ` ${p[2]}%` : ""}`).join(", ")}.` : "";
+        showTip(ev, nameAt(c, state.m), `${STATUS[s.st]}.${ls.map(l => ` ${l.role}: ${l.n}.`).join("")}${elec}`);
+        return;
+      }
+      if (col) showTip(ev, col.unit, `${window.EMPIRES[col.e].n}. Oggi: ${ALIGN[c].name}.`);
+      else showTip(ev, ALIGN[c] ? nameAt(c, state.m) : "Non classificato", s ? `${STATUS[s.st]}. ${s.note}` : "");
+    })
+    .on("pointerleave", hideTip)
+    .on("click", (ev, f) => select({ kind: "state", code: f.properties.c }));
+  applyPaths();
+  renderAral();
+  updateLand();
+  renderWater();
+  d3.select("#sba").attr("display", m >= SBA_FROM ? null : "none");
+  // Le isole stanno sopra quelle colorate per vicinanza; gli altri territori sotto il mare, che ne taglia le sporgenze
+  // Ogni zona è un gruppo: il riempimento e, sopra, il tratteggio del fronte sul suo bordo (mascherato lungo le coste).
+  // Le zone successive coprono riempimento e tratteggio di quelle sotto, così il tratteggio resta sul bordo visibile.
+  updateCoastMask(m);
+  const klass = x => { if (x.look) return x.look; const c = colonyAt(x.code, m), s = statusAt(x.code, m); return (c ? `emp-${c.e}` : s ? `st-${s.st}` : "land") + (x.cls ? " " + x.cls : ""); };
+  for (const [id, top] of [["#terr", false], ["#terr-top", true]]) {
+    const g = d3.select(id).selectAll("g.ti").data(TERRITORIES.filter(x => x.a <= m && m <= x.b && TERR_TOP.has(x.n) === top).sort((p, q) => (p.z || 0) - (q.z || 0)), x => x.n + x.a + x.look)
+      .join(enter => { const e = enter.append("g").attr("class", "ti"); e.append("path").attr("class", "tf"); e.append("path").attr("class", "ts").attr("mask", "url(#inland)"); return e; }).order();
+    g.attr("class", x => "ti " + (klass(x).match(/\bt-(land|low)\b/g) || []).join(" "))
+      .attr("display", x => x.clip && !x.clipKey && !best.has(x.clip) ? "none" : null)
+      .attr("clip-path", x => {
+        if (x.clipKey && window.TERR_CLIPS?.[x.clipKey]) {
+          const id = `clipr-${x.clipKey}`;
+          if (d3.select(`#${id}`).empty()) d3.select("#map defs").append("clipPath").attr("id", id).append("path").attr("d", ringsD5(window.TERR_CLIPS[x.clipKey]));
+          return `url(#${id})`;
+        }
+        if (!x.clip || !best.has(x.clip)) return null; const id = `clip-${x.clip}`; if (d3.select(`#${id}`).empty()) d3.select("#map defs").append("clipPath").attr("id", id).append("path"); d3.select(`#${id} path`).attr("d", pathOf(best.get(x.clip))); return `url(#${id})`; })
+      .style("pointer-events", x => x.pass ? "none" : null) // i livelli che ridisegnano uno Stato lasciano passare i clic allo Stato sotto
+      .on("pointermove", (ev, x) => showTip(ev, x.n, x.d)).on("pointerleave", hideTip).on("click", (ev, x) => select(x));
+    g.select("path.tf").attr("class", x => "tf " + klass(x)).attr("d", x => x._d || (x._d = ringsD5(x.rings)));
+    g.select("path.ts").attr("display", x => /\bt-occ\b/.test(klass(x)) ? null : "none").attr("d", x => x._d || (x._d = ringsD5(x.rings)));
+  }
+  if (detailReady) renderDetailTerr(m, klass);
+  if (window.flagsReady) updateFlags();
+  paintIslets(m);
+  const spainNow = statusAt(230, m);
+  d3.select("#gib-spain").attr("class", `st-${spainNow.st}`);
+  d3.select("#gib-border").classed("closed", m >= GIB_CLOSED && m < GIB_OPEN);
+  d3.select("#emplines").attr("d", empireLines(active, m));
+
+  d3.select("#labels").selectAll("text").data(labelItems(active, m), d => d.id).join("text")
+    .attr("class", "lbl").attr("x", d => d.x).attr("y", d => d.y).text(d => d.name);
+  updateLabels();
+
+  const lines = state.layers.lines ? LINES.filter(l => l.a <= m && m <= l.b) : [];
+  d3.select("#lines").selectAll("g").data(lines, l => l.n + l.a).join(enter => {
+    const g = enter.append("g");
+    const line = l => geo(lineGeo(l));
+    g.append("path").attr("class", l => `ln ln-halo ln-halo-${l.k}`).attr("d", line);
+    g.append("path").attr("class", l => `ln ln-${l.k}`).attr("d", line);
+    g.append("path").attr("class", "ln-hit").attr("d", line)
+      .on("pointermove", (ev, l) => showTip(ev, l.n, l.d)).on("pointerleave", hideTip).on("click", (ev, l) => select(l));
+    return g;
+  });
+
+  const bases = BASES.filter(b => b.a <= m && m <= b.b);
+  // Da ottobre 1990 a Berlino resta solo l'icona della capitale
+  const inBerlin = b => b.lat > 52.33 && b.lat < 52.68 && b.lon > 13.05 && b.lon < 13.78;
+  const shown = state.layers.bases ? bases.filter(b => state.owners.has(b.owner) && state.types.has(b.type) && !(m >= UNITY && inBerlin(b)) && (!state.nukeOnly || b.nuke) && (!state.sovOnly || b.sov)) : [];
+  document.getElementById("bcount").textContent = `(${shown.length} su ${bases.length} attive)`;
+  d3.select("#bases").selectAll("g").data(shown, b => b.n + b.owner).join(enter => {
+    const g = enter.append("g").attr("class", "mk");
+    g.filter(b => b.nuke).append("circle").attr("class", "nuke").attr("r", 6);
+    g.filter(b => b.sov).append("rect").attr("class", "sov").attr("x", -7.5).attr("y", -7.5).attr("width", 15).attr("height", 15);
+    g.append("path").attr("d", b => SHAPES[b.type]).style("fill", b => OWNER_COLOR[b.owner]);
+    g.append("text").attr("x", 8).attr("y", 2.5).text(b => b.n);
+    g.on("pointermove", (ev, b) => showTip(ev, b.n, `${OWNERS[b.owner]}, ${TYPES[b.type].toLowerCase()}. ${b.note}${b.nuke ? " Armi nucleari secondo fonti aperte." : ""}${b.sov ? " Sovrana o in affitto." : ""}`)).on("pointerleave", hideTip)
+      .on("click", (ev, b) => { ev.stopPropagation(); select(b); });
+    return g;
+  }).classed("sel", b => state.sel === b);
+
+  const confs = state.layers.confs ? CONFS.filter(c => c.a <= m && m <= c.b) : [];
+  d3.select("#confs").selectAll("g").data(confs, c => c.n).join(enter => {
+    const g = enter.append("g").attr("class", "mk conf");
+    g.append("circle").attr("r", 4.2);
+    g.append("path").attr("d", "M-2-2 2 2M2-2-2 2");
+    g.append("text").attr("x", 7).attr("y", 2.5).text(c => c.n);
+    g.on("pointermove", (ev, c) => showTip(ev, c.n, c.d)).on("pointerleave", hideTip).on("click", (ev, c) => { ev.stopPropagation(); select(c); });
+    return g;
+  });
+
+  if (detailReady) {
+    // Da ottobre 1990 Berlino è una sola città in un solo Stato: niente Muro, settori o colori separati
+    // Prima della divisione (1948-49) Berlino e la Germania sono le zone e i settori di occupazione, disegnati sotto
+    const wall = m >= WALL_A && m <= WALL_B, unity = m >= UNITY, sector = !wall && !unity && m >= ym("1945-07");
+    d3.select("#d-walled").attr("display", wall ? null : "none");
+    // La vecchia linea dei settori seguiva il Muro, non il confine: i settori ora hanno il loro bordo
+    d3.select("#d-sector").attr("display", "none");
+    d3.select("#d-west").attr("display", unity || m < ym("1948-12") ? "none" : null);
+    // RFT e RDT del dettaglio hanno il confine grossolano della carta di base: lo disegnano i livelli OSM in #terr
+    d3.select("#d-frg").attr("display", "none");
+    d3.select("#d-gdr").attr("display", "none");
+    d3.select("#d-unified").attr("display", "none"); // il fondo #d-bg copre tutta la Germania con il colore del mese
+    d3.select("#p-charlie").attr("data-on", m >= ym("1961-08") && m <= ym("1990-06") ? 1 : 0);
+    d3.select("#p-alpha").attr("data-on", m >= ALPHA_NEW && m <= ym("1990-06") ? 1 : 0);
+    d3.select("#p-bravo").attr("data-on", m >= BRAVO_NEW && m <= ym("1990-06") ? 1 : 0);
+    d3.select("#p-bravo-old").attr("data-on", m < BRAVO_NEW ? 1 : 0);
+    updateDetailLevels();
+  }
+  d3.select("#battles").selectAll("g").data(state.layers.battles ? BATTLES.filter(b => b.a <= m && m <= b.b) : [], b => b.n).join(enter => {
+    const g = enter.append("g").attr("class", "mk bat");
+    g.append("circle").attr("r", 4);
+    g.append("path").attr("d", "M-2.4-2.4 2.4 2.4M2.4-2.4-2.4 2.4");
+    g.append("text").attr("x", 6).attr("y", 2.5).text(b => b.n);
+    g.on("pointermove", (ev, b) => showTip(ev, b.n, b.d)).on("pointerleave", hideTip).on("click", (ev, b) => { ev.stopPropagation(); select(b); });
+    return g;
+  });
+  // Test nucleari: solo quelli del mese
+  const recent = [];
+  if (state.layers.tests) for (const t of TEST_BY_M.get(m) || []) recent.push(t);
+  d3.select("#tests").selectAll("g").data(recent, t => `${t.m}-${t.day}-${t.n}-${t.lat}`).join(enter => {
+    const g = enter.append("g").attr("class", "tst");
+    g.append("circle").attr("r", t => 1.6 + Math.log10(Math.max(t.hi || t.lo || 1, 1)) * 1.5);
+    g.on("pointermove", (ev, t) => showTip(ev, t.n, testText(t))).on("pointerleave", hideTip)
+      .on("click", (ev, t) => { ev.stopPropagation(); select({ kind: "place", n: t.n, a: t.m, b: t.m, d: testText(t), src: "SIPRI, tramite il dataset Tidy Tuesday" }); });
+    return g;
+  });
+  renderTests(m); renderLog(m);
+  // Capitali: solo degli Stati indipendenti, le colonie compaiono all'indipendenza
+  // Nel mese in cui una capitale cambia ne resta una sola, la nuova
+  const capBy = new Map();
+  if (state.layers.caps) for (const c of CAPITALS) if (c.a <= m && m <= c.b && best.has(c.code) && statusAt(c.code, m) && !colonyAt(c.code, m) && !(capBy.get(c.code)?.a > c.a)) capBy.set(c.code, c);
+  const caps = [...capBy.values()];
+  d3.select("#capitals").selectAll("g").data(caps, c => `${c.code}-${c.a}`).join(enter => {
+    const g = enter.append("g").attr("class", "mk cap");
+    g.append("circle").attr("r", 2.4);
+    g.append("circle").attr("class", "dot").attr("r", .9);
+    g.append("text").attr("x", 4).attr("y", 2.4).text(c => c.n);
+    g.on("pointermove", (ev, c) => showTip(ev, c.n, `Capitale: ${ALIGN[c.code].name}`)).on("pointerleave", hideTip)
+      .on("click", (ev, c) => { ev.stopPropagation(); select({ kind: "state", code: c.code }); });
+    return g;
+  });
+  renderPlaces();
+  place();
+  renderLegend(active); renderEvents(); renderActive(); renderDetail();
+}
+
+const TERR_TOP = new Set(["Usedom e Wolin", "Bahrein", "Penghu", "Quemoy", "Matsu", "Isole Falkland occupate", "Zara e Pelagosa","Dodecaneso, occupazione tedesca", "Dodecaneso, amministrazione britannica"]);
+const TERRITORIES = window.TERRITORIES.map(x => ({ ...x, kind: "place", a: ym(x.from), b: ym(x.to) }));
+const ringsD5 = rings => rings.map(r => "M" + r.map(p => proj(p).map(v => v.toFixed(5)).join(",")).join("L") + "Z").join("");
+function renderTests(m) {
+  const list = TEST_BY_M.get(m) || [], total = [...TEST_BY_M].filter(([k]) => k <= m).reduce((s, [, v]) => s + v.length, 0);
+  const kt = list.reduce((s, t) => s + (t.hi || t.lo || 0), 0);
+  document.getElementById("test-now").textContent = `${list.length} questo mese${kt ? `, fino a ${kt >= 1000 ? +(kt / 1000).toFixed(1) + " Mt" : Math.round(kt) + " kt"}` : ""}. ${total} dal 1945.`;
+  const ul = document.getElementById("test-list"); ul.replaceChildren();
+  for (const t of list.slice(0, 8)) {
+    const b = el("button", "row"); b.style.gridTemplateColumns = "minmax(0,1fr)";
+    b.append(el("span", "", `${t.n}: ${fmtYield(t)}, ${COUNTRY_IT[t.country] || t.country}`));
+    b.onclick = () => { select({ kind: "place", n: t.n, a: t.m, b: t.m, d: testText(t), src: "SIPRI, tramite il dataset Tidy Tuesday" }); zoomTo({ kind: "base", lat: t.lat, lon: t.lon }); };
+    const li = el("li"); li.append(b); ul.append(li);
+  }
+  if (list.length > 8) ul.append(el("li", "n", `e altri ${list.length - 8}`));
+}
+function renderLog(m) {
+  document.getElementById("log-h").textContent = `Eventi, ${fmt(m).toLowerCase()}`;
+  const ul = document.getElementById("log-list"); ul.replaceChildren();
+  for (const t of LOG.get(m) || []) ul.append(el("li", "", t));
+  if (!LOG.has(m)) {
+    const next = LOG_MONTHS.find(x => x > m), li = el("li", "soon");
+    if (next != null) { const b = el("button", "", `${fmt(next)}: ${LOG.get(next)[0]}`); b.onclick = () => goTo(next); li.append("Nessun evento in elenco. Prossimo: ", b); }
+    else li.textContent = "Nessun evento in elenco.";
+    ul.append(li);
+  }
+}
+function placeList() {
+  const m = state.m, out = [];
+  for (const p of PLACES) if (p.a <= m && m <= p.b && (p.c !== "nuke" || state.layers.nuke)) out.push(p);
+  if (state.layers.cps) for (const c of CPS) if (c.a <= m && m <= c.b) out.push({ ...c, c: "cp", min: 60, lon: c.marker ? c.marker[0] : c.lon, lat: c.marker ? c.marker[1] : c.lat, cpRef: c });
+  for (const l of PLABELS) {
+    if (l.group) { const g = document.getElementById(l.group); if (g && g.getAttribute("data-on") === "0") continue; }
+    out.push(l);
+  }
+  return out;
+}
+const PLACE_SHAPE = { gate: "M-3-3H3V3H-3ZM-3 0H3", tower: "M-2.4 3.4H2.4L1 -3H-1Z", cp: "M0-5 5 0 0 5-5 0Z", nuke: "M0-1A1 1 0 1 1 0 1A1 1 0 1 1 0-1ZM-1.3-2.2 -2.6-4.5A5.2 5.2 0 0 1 2.6-4.5L1.3-2.2A2.6 2.6 0 0 0-1.3-2.2ZM2.6 0H5.2A5.2 5.2 0 0 1 2.6 4.5L1.3 2.2A2.6 2.6 0 0 0 2.6 0ZM-1.3 2.2 -2.6 4.5A5.2 5.2 0 0 1-5.2 0H-2.6A2.6 2.6 0 0 0-1.3 2.2Z" };
+function renderPlaces() {
+  const sel = d3.select("#places").selectAll("g").data(placeList(), d => d.n + d.c).join(enter => {
+    const g = enter.append("g").attr("class", d => `pl ${d.c || ""}`);
+    g.filter(d => d.c === "nuke").append("circle").attr("r", 11);
+    g.filter(d => PLACE_SHAPE[d.c]).append("path").attr("d", d => PLACE_SHAPE[d.c]).style("fill", d => d.c === "cp" ? "var(--stamp)" : "var(--ink)");
+    g.append("text").attr("x", d => d.c === "title" || d.c === "part" ? 0 : d.c === "nuke" ? 15 : PLACE_SHAPE[d.c] ? 8 : 3).attr("y", d => d.c === "nuke" ? 5.5 : 3).attr("text-anchor", d => d.anchor || null).text(d => d.n);
+    g.on("pointermove", (ev, d) => { if (d.d) showTip(ev, d.n, d.d); }).on("pointerleave", hideTip)
+      .on("click", (ev, d) => { ev.stopPropagation(); if (d.cpRef) { select(d.cpRef); } else if (d.d) select({ kind: "place", ...d, a: d.a, b: d.b }); });
+    return g;
+  });
+}
+// Lago d'Aral: anelli proiettati a mano, perché con i buchi conta la regola evenodd e non il verso di d3
+const ARAL_ITEM = { kind: "aral", n: "Lago d'Aral", a: ym("1960-01"), b: Infinity,
+  d: "Dal 1960 i fiumi Amu Darya e Syr Darya vengono deviati per irrigare il cotone sovietico. Il lago, allora il quarto al mondo, si ritira e a fine anni Ottanta si divide in due. La sabbia mostra il fondale emerso, il tratteggio la riva del 1960.",
+  src: "riva del 1960 da Natural Earth; superfici da tabelle pubblicate; contorni intermedi stimati, non osservati" };
+const ringsD = rings => rings.map(r => "M" + r.map(p => proj(p).map(v => v.toFixed(3)).join(",")).join("L") + "Z").join("");
+const ARAL_FRAMES = window.ARAL.frames.map(f => ({ ...f, at: ym(f.m) }));
+const aralFull = ringsD(window.ARAL.full);
+function aralArea(m) {
+  const y = Math.floor(m / 12) + (m % 12) / 12, A = window.ARAL.areas;
+  if (y <= A[0][0]) return A[0][1];
+  for (let i = 1; i < A.length; i++) if (y <= A[i][0]) return A[i - 1][1] + (A[i][1] - A[i - 1][1]) * (y - A[i - 1][0]) / (A[i][0] - A[i - 1][0]);
+  return A[A.length - 1][1];
+}
+// Amu Darya e Syr Darya sul fondale: ogni canale si ferma alla riva del mese, a passi di circa 500 m
+const inRings = ([x, y], rings) => { let c = false; for (const r of rings) for (let i = 0, j = r.length - 1; i < r.length; j = i++) if ((r[i][1] > y) !== (r[j][1] > y) && x < (r[j][0] - r[i][0]) * (y - r[i][1]) / (r[j][1] - r[i][1]) + r[i][0]) c = !c; return c; };
+d3.select("#aral").append("path").attr("id", "aral-riv");
+function aralRivers(rings) {
+  let d = "";
+  for (const { p } of window.ARAL.rivers) {
+    const out = [p[0]];
+    walk: for (let i = 0; i < p.length - 1; i++) {
+      const n = Math.ceil(Math.hypot(p[i + 1][0] - p[i][0], p[i + 1][1] - p[i][1]) / .005) || 1;
+      for (let j = 1; j <= n; j++) {
+        const q = [p[i][0] + (p[i + 1][0] - p[i][0]) * j / n, p[i][1] + (p[i + 1][1] - p[i][1]) * j / n];
+        if (inRings(q, rings)) break walk;
+        out.push(q);
+      }
+    }
+    if (out.length > 1) d += "M" + out.map(q => proj(q).map(v => v.toFixed(4)).join(",")).join("L");
+  }
+  return d;
+}
+function renderAral() {
+  const m = state.m, on = state.layers.aral, started = m >= ym("1960-01");
+  d3.select("#aral").attr("display", on ? null : "none");
+  let frame = null;
+  for (const f of ARAL_FRAMES) if (f.at <= m) frame = f;
+  d3.select("#aral-bed").attr("d", aralFull).attr("display", started ? null : "none");
+  d3.select("#aral-water").attr("d", started && frame ? (frame.d || (frame.d = ringsD(frame.r))) : aralFull);
+  d3.select("#aral-riv").attr("d", started && frame ? (frame.rd || (frame.rd = aralRivers(frame.r))) : "");
+  const area = aralArea(m), pct = Math.round(area / 68000 * 100);
+  document.getElementById("aral-now").textContent = `Circa ${(Math.round(area / 100) * 100).toLocaleString("it-IT")} km², ${pct}% del 1960`;
+  document.getElementById("aral-bar").style.width = pct + "%";
+}
+// Basi sovrane: territorio britannico a Cipro dall'indipendenza dell'isola, agosto 1960
+const SBA_FROM = ym("1960-08");
+const SBA_TEXT = "Territorio sovrano britannico dal 16 agosto 1960: il Regno Unito lo trattiene quando Cipro diventa indipendente. Contorno moderno da Natural Earth.";
+d3.select("#sba").selectAll("path").data(Object.entries(LINE_GEO.sba)).join("path").attr("d", d => ringsD(d[1]))
+  .on("pointermove", (ev, d) => showTip(ev, `Base sovrana di ${d[0]}`, "Territorio del Regno Unito")).on("pointerleave", hideTip)
+  .on("click", (ev, d) => select({ kind: "place", n: `Base sovrana di ${d[0]}`, a: SBA_FROM, b: Infinity, d: SBA_TEXT }));
+// Gibilterra: colonia britannica per tutto il periodo. Da vicino la costa spagnola attorno è ridisegnata con OSM
+const GIB_CLOSED = ym("1969-06"), GIB_OPEN = ym("1985-02");
+const gibD = rings => rings.map(r => "M" + r.map(p => proj(p).map(v => v.toFixed(5)).join(",")).join("L") + "Z").join("");
+d3.select("#gib-sea").attr("d", gibD(GIBRALTAR.sea));
+d3.select("#gib-spain").attr("d", gibD(GIBRALTAR.spain));
+const GIB_ITEM = { kind: "place", n: "Gibilterra", a: START, b: Infinity,
+  d: "Colonia britannica, ceduta dalla Spagna nel 1713. La Spagna ne chiede la restituzione per tutta la Guerra Fredda e nel giugno 1969 chiude il confine: riapre ai pedoni nel dicembre 1982 e del tutto nel febbraio 1985. La linea tratteggiata rossa indica gli anni di chiusura.",
+  src: "contorno e confine da OpenStreetMap, oggi; il terreno strappato al mare dopo il 1945 non è distinto" };
+d3.select("#gib-rock").attr("d", gibD(GIBRALTAR.rock))
+  .on("pointermove", ev => showTip(ev, "Gibilterra", "Colonia britannica")).on("pointerleave", hideTip).on("click", () => select(GIB_ITEM));
+d3.select("#gib-border").attr("d", "M" + GIBRALTAR.border.map(p => proj(p).map(v => v.toFixed(5)).join(",")).join("L"))
+  .on("pointermove", ev => showTip(ev, "Confine Spagna-Gibilterra", state.m >= GIB_CLOSED && state.m < GIB_OPEN ? "Chiuso dalla Spagna, 1969-1985" : "Aperto")).on("pointerleave", hideTip).on("click", () => select(GIB_ITEM));
+d3.select("#aral").on("pointermove", ev => showTip(ev, "Lago d'Aral", document.getElementById("aral-now").textContent)).on("pointerleave", hideTip)
+  .on("click", () => select(ARAL_ITEM));
+function pos(d) {
+  if (d.kind === "base") return proj([d.lon, d.lat]);
+  if (d.lon != null) return proj([d.lon, d.lat]);
+  return proj(d.at);
+}
+function place() {
+  const t = state.t, k = t.k, s = Math.min(2.4, Math.pow(k, .3));
+  overlay.classed("near", k >= 7).classed("mid", k >= 3);
+  const set = function (d) {
+    const [x, y] = pos(d);
+    return `translate(${t.k * x + t.x},${t.k * y + t.y}) scale(${s})`;
+  };
+  // A zoom altissimo i simboli delle basi coprirebbero la planimetria: restano fino a 3000x
+  d3.selectAll("#bases g, #confs g").attr("transform", set).attr("display", k > 3000 ? "none" : null);
+  d3.selectAll("#capitals g").attr("transform", set);
+  d3.selectAll("#battles g, #tests g").attr("transform", set).attr("display", k > 3000 ? "none" : null);
+  d3.select("#places").selectAll("g").attr("transform", d => { const [x, y] = pos(d); return `translate(${k * x + t.x},${k * y + t.y}) scale(${Math.min(1.2, s)})`; })
+    .attr("display", d => (k >= d.min && (!d.max || k <= d.max) && detailOrSimple(d)) ? null : "none");
+  if (window.flagsReady) updateFlags();
+}
+const detailOrSimple = d => d.c === "street" || d.c === "part" ? detailReady : true;
+
+/* Bandiere vettoriali delle potenze occupanti nelle zone (Germania, Austria) e nei settori (Berlino, Vienna).
+   Restano nitide a ogni ingrandimento; dimensione fissa sullo schermo. Bandiere dell'epoca: Stati Uniti a 48 stelle,
+   bandiera sovietica del 1936 (falce e martello con stella bordata d'oro). */
+(function flagSymbols() {
+  const star = (cx, cy, r) => { const p = []; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .382 : r; p.push((cx + rr * Math.cos(a)).toFixed(2) + "," + (cy + rr * Math.sin(a)).toFixed(2)); } return "M" + p.join("L") + "Z"; };
+  let us = "";
+  for (let i = 0; i < 13; i++) us += `<rect y="${(i * 100 / 13).toFixed(3)}" width="190" height="${(100 / 13 + .05).toFixed(3)}" fill="${i % 2 ? "#fff" : "#b22234"}"/>`;
+  us += `<rect width="76" height="53.85" fill="#3c3b6e"/>`;
+  let stars = ""; for (let r = 0; r < 6; r++) for (let c = 0; c < 8; c++) stars += star(76 * (c + .5) / 8, 53.85 * (r + .5) / 6, 3.4);
+  us += `<path d="${stars}" fill="#fff"/>`;
+  const sym = {
+    uk: [60, 30, `<rect width="60" height="30" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/>` +
+      `<path d="M0,0L60,30M60,0L0,30" stroke="#c8102e" stroke-width="2"/>` +
+      `<path d="M30,0V30M0,15H60" stroke="#fff" stroke-width="10"/><path d="M30,0V30M0,15H60" stroke="#c8102e" stroke-width="6"/>`],
+    us: [190, 100, us],
+    fr: [3, 2, `<rect width="1" height="2" fill="#002395"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ed2939"/>`],
+    su: [60, 30, `<rect width="60" height="30" fill="#cc0000"/>` +
+      `<path d="${star(10, 4.2, 2.6)}" fill="#cc0000" stroke="#ffd700" stroke-width=".7"/>` +
+      `<path d="M6.2,10.6A5.4,5.4 0 1 0 14.6,8.2" fill="none" stroke="#ffd700" stroke-width="1.5"/><path d="M14.6,8.2l-1.6,-.4l.9,1.6z" fill="#ffd700"/>` +
+      `<path d="M7,16.4L13.2,9.4" stroke="#ffd700" stroke-width="1.3" stroke-linecap="round"/><path d="M11.6,8.1L14.9,10.9L15.8,9.9L12.5,7.1z" fill="#ffd700"/>`],
+  };
+  let html = "";
+  for (const [id, [w, h, body]] of Object.entries(sym)) html += `<symbol id="fl-${id}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">${body}</symbol>`;
+  d3.select("#map defs").append("g").html(html);
+})();
+const FLAG_H = 12, FLAG_W = { uk: 24, us: 22.8, fr: 18, su: 24 };
+const FLAG_NAME = { uk: "Regno Unito", us: "Stati Uniti", fr: "Francia", su: "Unione Sovietica" };
+// [potenza, lon, lat, da, a, zoom minimo, dove]
+const FLAGS = [
+  ["uk", 9.3, 52.75, "1945-05", "1949-05", 5, "Zona britannica in Germania"], ["us", 11.9, 48.75, "1945-05", "1949-05", 5, "Zona americana in Germania"],
+  ["fr", 7.3, 49.75, "1945-07", "1949-05", 5, "Zona francese in Germania"], ["su", 11.9, 51.75, "1945-05", "1949-09", 5, "Zona sovietica in Germania"],
+  ["us", 13.3, 47.85, "1945-05", "1955-07", 8, "Zona americana in Austria"], ["uk", 13.9, 46.72, "1945-05", "1955-07", 8, "Zona britannica in Austria"],
+  ["fr", 9.85, 47.25, "1945-05", "1945-06", 8, "Vorarlberg, occupato dai francesi"], ["fr", 10.9, 47.15, "1945-07", "1955-07", 8, "Zona francese in Austria"],
+  ["su", 15.7, 48.45, "1945-05", "1955-07", 8, "Zona sovietica in Austria"],
+  // Maggio-luglio 1945, prima dell'assetto definitivo
+  ["us", 11.55, 47.33, "1945-05", "1945-06", 8, "Tirolo, occupato dagli americani fino a inizio luglio 1945"],
+  ["su", 15.3, 47.25, "1945-05", "1945-07", 8, "Stiria, occupata dai sovietici fino al 24 luglio 1945"],
+  ["us", 14.3, 48.45, "1945-05", "1945-07", 8, "Mühlviertel, occupato dagli americani fino al 1° agosto 1945"],
+  ["us", 13.31, 52.435, "1945-07", "1990-09", 150, "Settore americano di Berlino"], ["uk", 13.18, 52.525, "1945-07", "1990-09", 150, "Settore britannico di Berlino"],
+  ["fr", 13.30, 52.595, "1945-07", "1990-09", 150, "Settore francese di Berlino"], ["su", 13.47, 52.545, "1945-07", "1990-09", 150, "Settore sovietico di Berlino"],
+  ["us", 16.315, 48.245, "1945-09", "1955-07", 300, "Settore americano di Vienna"], ["uk", 16.30, 48.168, "1945-09", "1955-07", 300, "Settore britannico di Vienna"],
+  ["fr", 16.272, 48.208, "1945-09", "1955-07", 300, "Settore francese di Vienna"], ["su", 16.45, 48.255, "1945-09", "1955-07", 300, "Settore sovietico di Vienna"],
+  ["int", 16.372, 48.2085, "1945-09", "1955-07", 700, "Innere Stadt: amministrata a turno dalle quattro potenze"],
+].map(([f, lon, lat, a, b, min, n]) => ({ f, lon, lat, a: ym(a), b: ym(b), min, n }));
+const flagUse = (g, f, x, y, s) => {
+  const w = FLAG_W[f] * s, h = FLAG_H * s;
+  g.append("use").attr("href", `#fl-${f}`).attr("x", x).attr("y", y).attr("width", w).attr("height", h);
+  g.append("rect").attr("class", "fl-frame").attr("x", x).attr("y", y).attr("width", w).attr("height", h);
+};
+d3.select("#flags").selectAll("g").data(FLAGS).join("g").attr("class", "flag").each(function (d) {
+  const g = d3.select(this);
+  if (d.f === "int") { ["us", "uk", "fr", "su"].forEach((f, i) => flagUse(g, f, (i % 2 ? 1 : -FLAG_W[f] * .55 - 1), (i < 2 ? -FLAG_H * .55 - 1 : 1), .55)); return; }
+  g.append("line").attr("class", "fl-pole").attr("x1", -FLAG_W[d.f] / 2).attr("x2", -FLAG_W[d.f] / 2).attr("y1", -FLAG_H / 2).attr("y2", FLAG_H / 2 + 7);
+  flagUse(g, d.f, -FLAG_W[d.f] / 2, -FLAG_H / 2, 1);
+}).on("pointermove", (ev, d) => showTip(ev, d.n, d.f === "int" ? "" : FLAG_NAME[d.f])).on("pointerleave", hideTip);
+const ROMAN = n => ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI", "XXII", "XXIII"][n];
+d3.select("#vdist").selectAll("text").data(window.VIENNA_DISTRICTS || []).join("text").text(d => ROMAN(d[0]));
+window.flagsReady = true;
+function updateFlags() {
+  const t = state.t, k = t.k, m = state.m;
+  d3.selectAll("#flags g.flag").attr("display", d => d.a <= m && m <= d.b && k >= d.min ? null : "none")
+    .attr("transform", d => { const [x, y] = proj([d.lon, d.lat]); return `translate(${k * x + t.x},${k * y + t.y})`; });
+  const vOn = m >= ym("1945-09") && m <= ym("1955-07") && k >= 450;
+  d3.select("#vdist").attr("display", vOn ? null : "none");
+  if (vOn) d3.selectAll("#vdist text").attr("transform", d => { const [x, y] = proj([d[1], d[2]]); return `translate(${k * x + t.x},${k * y + t.y})`; });
+}
+
+function updateLabels() {
+  const k = state.k, fs = 8 / k;
+  d3.select("#labels").attr("font-size", fs).attr("stroke-width", 2 / k);
+  d3.select("#labels").selectAll("text").attr("display", l => l.w * k > l.name.length * 5.4 && l.h * k > 13 ? null : "none");
+  d3.select("#oceans").attr("display", k > 12 ? "none" : null);
+  d3.select("#gib-local").attr("display", k >= 120 ? null : "none");
+}
+function updateDetailLevels() {
+  const k = state.k;
+  if (k >= DETAIL_K * .6 && !detailReady) loadDetail();
+  d2.attr("hidden", k >= DETAIL_K && detailReady ? null : "hidden");
+  d2.attr("display", k >= DETAIL_K && detailReady ? null : "none");
+  if (!detailReady) return;
+  const t = state.t;
+  d2.attr("transform", `translate(${t.k * ANCHOR[0] + t.x},${t.k * ANCHOR[1] + t.y}) scale(${t.k / S})`);
+  d2.selectAll(".lv").attr("display", function () {
+    const min = +this.getAttribute("data-min"), on = this.getAttribute("data-on");
+    return k >= min && on !== "0" ? null : "none";
+  });
+  d3.select("#d-regional").attr("display", k > WORLD_K * .8 ? null : "none");
+}
+/* Coste OSM a tasselli da 60x: la terra OSM ritaglia gli Stati, che sotto si allargano con un alone del proprio
+   colore per riempire le differenze con la costa generale. Le isole minori prendono lo Stato più vicino. */
+const LAND_K = 30, LAND_SIZE = 15, landLoaded = new Set(), landAsked = new Set(), landKeys = new Set(window.LAND_INDEX);
+const decLand = a => { const out = []; let x = 0, y = 0; for (let i = 0; i < a.length; i += 2) { x += a[i]; y += a[i + 1]; out.push([x / 1e4, y / 1e4]); } return out; };
+// I lati lunghi dei tasselli seguono il meridiano o il parallelo, curvi in proiezione: dritti, tra un tassello e l'altro resterebbe una fessura
+const landRing = r => { const out = []; r.forEach((p, i) => { const q = r[(i + 1) % r.length], n = Math.ceil(Math.max(Math.abs(q[0] - p[0]), Math.abs(q[1] - p[1])) / .25) || 1; for (let j = 0; j < n; j++) out.push(proj([p[0] + (q[0] - p[0]) * j / n, p[1] + (q[1] - p[1]) * j / n])); }); return out; };
+const landD = list => list.map(a => "M" + landRing(decLand(a)).map(p => p.map(v => v.toFixed(4)).join(",")).join("L") + "Z").join("");
+const landPaths = new Map();
+window.LAND_TILE = function (x, y, t) {
+  const all = landD(t.land);
+  d3.select("#osm-land").append("path").attr("d", all);
+  // Terra colorata sotto gli Stati: dove i loro contorni non arrivano prende lo Stato prevalente o più vicino, mai il neutro
+  for (const [code, idx] of Object.entries(t.col || {})) d3.select("#osm-under").append("path").attr("d", landD(idx.map(i => t.land[i]))).attr("data-code", code);
+  let land = all;
+  for (const [code, list] of Object.entries(t.isl)) {
+    const d = landD(list);
+    land += d;
+    d3.select("#osm-isl").append("path").attr("d", d).attr("data-code", code);
+  }
+  landPaths.set(`${x}_${y}`, land);
+  landLoaded.add(`${x}_${y}`);
+  updateLand();
+  paintIslets(state.m);
+};
+/* Nel 1945 i confini non sono quelli di oggi (Wolin era tedesca, Vilnius polacca): l'isola prende lo Stato che la contiene in quel mese */
+const isletOwner = new Map();
+function ownerAt(el, m, feats) {
+  if (!el._ll) { const b = el.getBBox(); el._ll = proj.invert([b.x + b.width / 2, b.y + b.height / 2]); }
+  const key = `${m}|${el._ll}`;
+  if (isletOwner.has(key)) return isletOwner.get(key);
+  let code = null;
+  for (const f of feats) {
+    const bb = f._bb || (f._bb = d3.geoBounds(f));
+    const [lon, lat] = el._ll;
+    if (lat < bb[0][1] - .05 || lat > bb[1][1] + .05 || lon < bb[0][0] - .05 || lon > bb[1][0] + .05) continue;
+    if (d3.geoContains(f, el._ll)) { code = f.properties.c; break; }
+  }
+  if (code === null) { // isoletta fuori dai contorni storici: lo Stato più vicino entro mezzo grado
+    let best = Infinity;
+    for (const f of feats) {
+      const bb = f._bb, [lon, lat] = el._ll;
+      if (lat < bb[0][1] - .5 || lat > bb[1][1] + .5 || lon < bb[0][0] - .5 || lon > bb[1][0] + .5) continue;
+      const near = d3.geoDistance(el._ll, d3.geoCentroid(f));
+      if (near < best) { best = near; code = f.properties.c; }
+    }
+  }
+  isletOwner.set(key, code);
+  return code;
+}
+function paintIslets(m) {
+  const wartime = m < ym("1945-09"), feats = wartime ? [...activeFeatures(m).values()] : [];
+  d3.selectAll("#osm-isl path, #osm-under path").attr("class", function () {
+    // Microstati e possedimenti hanno uno status solo dal settembre 1945: prima vale il primo noto
+    const code = (wartime && this.parentNode.id === "osm-isl" && ownerAt(this, m, feats)) || +this.getAttribute("data-code"), pre = m < ym("1945-09"), col = colonyAt(code, m) || (pre ? colonyAt(code, ym("1945-09")) : null), s = statusAt(code, m) || (pre ? statusAt(code, ym("1945-09")) : null);
+    return col ? `emp-${col.e}` : s ? `st-${s.st}` : "land";
+  });
+}
+let seaKey = "", seaBox = null;
+/* Con le coste OSM si disegnano solo i confini di terra: il bordo degli Stati lungo la costa generale
+   finirebbe dentro la terra come una linea spezzata. Tra colonie dello stesso impero non c'è confine. */
+const borderCache = new Map();
+/* Maschera "interno": nasconde il tratteggio dei fronti entro COAST_BUF km dalla costa, dove i contorni delle zone seguono
+   approssimazioni della costa e non un fronte. La costa è il bordo esterno degli Stati del mese (archi usati da un solo Stato). */
+const COAST_BUF = 12, coastCache = new Map();
+function updateCoastMask(m) {
+  const active = [...activeFeatures(m).values()], hi = LEVEL === "hi" && window.BORDERS_HI;
+  const key = (hi ? "h" : "l") + active.map(f => f._id).join(",");
+  let mask = d3.select("#inland");
+  if (mask.empty()) {
+    mask = d3.select("#map defs").append("mask").attr("id", "inland").attr("maskUnits", "userSpaceOnUse").attr("x", -200).attr("y", -200).attr("width", W + 400).attr("height", 1000);
+    mask.append("rect").attr("x", -200).attr("y", -200).attr("width", W + 400).attr("height", 1000).attr("fill", "#fff");
+    mask.append("path").attr("fill", "none").attr("stroke", "#000").attr("stroke-linejoin", "round");
+  }
+  if (mask.attr("data-key") === key) return;
+  if (!coastCache.has(key)) {
+    const topo = hi ? BORDERS_HI : BORDERS, geomOf = f => hi ? f._gh : f._g;
+    coastCache.set(key, geo(topojson.mesh(topo, { type: "GeometryCollection", geometries: active.map(geomOf) }, (a, b) => a === b)) || "");
+  }
+  mask.attr("data-key", key).select("path").attr("d", coastCache.get(key)).attr("stroke-width", proj.scale() * 2 * COAST_BUF / 6371);
+}
+function landBorders(m) {
+  const active = [...activeFeatures(m).values()], hi = LEVEL === "hi" && window.BORDERS_HI;
+  const geomOf = f => hi ? f._gh : f._g, owner = new Map();
+  // Fino alla riunificazione il confine tra le zone, poi tra RFT e RDT, è il bordo della zona sovietica/RDT tracciato da OSM: non quello della carta di base
+  const zones = m < UNITY;
+  let key = (hi ? "h" : "l") + (zones ? "z" : "");
+  for (const f of active) { const c = colonyAt(f.properties.c, m), cc = f.properties.c, v = c ? `e${c.e}` : zones && (cc === 260 || cc === 265) ? "DE" : cc; owner.set(geomOf(f), v); key += `${f._id}${c ? c.e : ""},`; }
+  if (borderCache.has(key)) return borderCache.get(key);
+  const topo = hi ? BORDERS_HI : BORDERS;
+  const mesh = topojson.mesh(topo, { type: "GeometryCollection", geometries: active.map(geomOf) }, (a, b) => a !== b && owner.get(a) !== owner.get(b));
+  const d = geo(mesh) || "";
+  borderCache.set(key, d);
+  return d;
+}
+/* Laghi e fiumi: i più grandi da subito, gli altri man mano che si ingrandisce */
+let waterState = 0;
+function loadWater() { if (waterState) return; waterState = 1; const s = document.createElement("script"); s.src = "water.js"; s.onload = () => { waterState = 2; buildWater(); renderWater(); }; document.head.append(s); }
+function buildWater() {
+  d3.select("#lakes").selectAll("path").data(window.WATER.lakes.map(l => ({ ...l, a: ym(l.s) }))).join("path").attr("d", l => ringsD5(l.p));
+  d3.select("#rivers").selectAll("path").data(Object.entries(window.WATER.rivers)).join("path").attr("d", ([, segs]) => segs.map(s => "M" + s.map(p => proj(p).map(v => v.toFixed(3)).join(",")).join("L")).join(""));
+}
+function renderWater() {
+  if (waterState !== 2) { loadWater(); return; }
+  const k = state.k, m = state.m, maxRank = k < 2 ? 3 : k < 5 ? 5 : k < 12 ? 7 : 99;
+  // Con il dettaglio di Berlino attivo, le sue acque OSM sostituiscono i laghi generici (sagome grossolane) attorno alla città
+  const berlinDetail = k >= DETAIL_K && detailReady;
+  const nearBerlin = l => { const p = l.p[0][0]; return p[0] > 12.8 && p[0] < 13.9 && p[1] > 52.2 && p[1] < 52.8; };
+  d3.selectAll("#lakes path").attr("display", l => l.a <= m && (k >= 3 || l.r <= 3) && !(berlinDetail && nearBerlin(l)) ? null : "none");
+  d3.selectAll("#rivers path").attr("display", ([rank]) => +rank <= maxRank ? null : "none");
+}
+function landTilesInView() {
+  const t = state.t, [x0, y0] = t.invert([0, 0]), [x1, y1] = t.invert([W, H]), keys = new Set();
+  // A questi zoom la vista è piccola: bastano gli angoli e il centro, con un tassello di margine
+  for (const [x, y] of [[x0, y0], [x1, y0], [x0, y1], [x1, y1], [(x0 + x1) / 2, (y0 + y1) / 2]]) {
+    const p = proj.invert([x, y]); if (!p) continue;
+    const kx = Math.floor((p[0] + 180) / LAND_SIZE), ky = Math.floor((p[1] + 90) / LAND_SIZE);
+    for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) { const k = `${kx + dx}_${ky + dy}`; if (landKeys.has(k)) keys.add(k); }
+  }
+  return keys;
+}
+function updateLand() {
+  const on = state.k >= LAND_K && state.k <= WORLD_K * 1.01;
+  let ready = false;
+  if (on) {
+    const keys = landTilesInView();
+    ready = true;
+    for (const k of keys) {
+      if (!landLoaded.has(k)) ready = false;
+      if (!landAsked.has(k)) { landAsked.add(k); const s = document.createElement("script"); s.src = `land/${k}.js`; document.head.append(s); }
+    }
+  }
+  const clip = on && ready;
+  world.classed("land-on", clip);
+  // I confini di terra stanno sopra le zone occupate anche nella vista lontana, dove i riempimenti coprono il bordo degli Stati
+  d3.select("#landborders").attr("d", landBorders(state.m));
+  d3.selectAll("#osm-land, #osm-under, #osm-isl").attr("display", on ? null : "none");
+  d3.select("#halo").attr("display", clip ? null : "none");
+  d3.select("#osm-sea").attr("display", clip ? null : "none");
+  if (clip) {
+    const t = state.t, [x0, y0] = t.invert([0, 0]), [x1, y1] = t.invert([W, H]), mx = (x1 - x0) * .8, my = (y1 - y0) * .8;
+    // Il mare copre le sporgenze della costa generale: un rettangolo attorno alla vista con la terra OSM come buchi
+    const keys = [...landTilesInView()].sort().join();
+    const r = [x0 - mx, y0 - my, x1 + mx, y1 + my].map(v => v.toFixed(3));
+    if (keys !== seaKey || !seaBox || x0 < seaBox[0] || y0 < seaBox[1] || x1 > seaBox[2] || y1 > seaBox[3]) {
+      seaKey = keys; seaBox = [x0 - mx * .9, y0 - my * .9, x1 + mx * .9, y1 + my * .9];
+      d3.select("#osm-sea").attr("d", `M${r[0]},${r[1]}H${r[2]}V${r[3]}H${r[0]}Z` + keys.split(",").map(k => landPaths.get(k) || "").join(""));
+    }
+    const vis = [...activeFeatures(state.m).values()].filter(f => { const b = f._bbh || f._bb || geo.bounds(f); return !(b[1][0] < x0 - mx || b[0][0] > x1 + mx || b[1][1] < y0 - my || b[0][1] > y1 + my); });
+    // L'alone è più largo degli Stati piccoli: i grandi si disegnano per ultimi, così un'enclave non si stende sulla costa del vicino
+    const haloArea = f => f._ga ?? (f._ga = d3.geoArea(f));
+    d3.select("#halo").selectAll("path").data(vis.filter(f => f.properties.c !== 3920), f => f._id).join("path")
+      .attr("d", pathOf).attr("class", f => { const c = colonyAt(f.properties.c, state.m), s = statusAt(f.properties.c, state.m); return c ? `state col emp-${c.e}` : s ? `state st-${s.st}` : "land"; })
+      .sort((a, b) => haloArea(a) - haloArea(b));
+  }
+}
+function updatePatterns() {
+  // Il retino resta della stessa grana sullo schermo, come una tinta tipografica
+  const k = state.k;
+  d3.selectAll(".pat").attr("patternTransform", function () {
+    const rot = this.id === "hatch" ? 45 : +this.getAttribute("data-rot") || 0;
+    return `scale(${1 / k})${rot ? ` rotate(${rot})` : ""}`;
+  });
+  d3.selectAll(".patL").attr("patternTransform", function () {
+    const rot = +this.getAttribute("data-rot") || 0;
+    return `scale(${S / k})${rot ? ` rotate(${rot})` : ""}`;
+  });
+}
+function updateScale() {
+  const t = state.t, node = svg.node(), scr = Math.min(node.clientWidth / W, node.clientHeight / H);
+  const a = t.invert([W / 2, H / 2]), p1 = proj.invert(a), p2 = proj.invert([a[0] + 1 / t.k, a[1]]);
+  const mPerPx = d3.geoDistance(p1, p2) * 6371000 * t.k / t.k / scr * 1;
+  const target = mPerPx * 110, pow = Math.pow(10, Math.floor(Math.log10(target)));
+  const nice = [1, 2, 5, 10].map(v => v * pow).filter(v => v <= target).pop();
+  document.getElementById("scaleb").style.width = nice / mPerPx + "px";
+  document.getElementById("scalet").textContent = nice >= 1000 ? `${nice / 1000} km` : `${nice} m`;
+}
+const inGermany = c => c && c[0] > 9.5 && c[0] < 15.5 && c[1] > 50.5 && c[1] < 54;
+
+const zoom = d3.zoom().scaleExtent([1, MAX_K]).translateExtent([[0, 0], [W, H]]).on("zoom", ev => {
+  const t = ev.transform;
+  // Oltre 2500x esistono dati solo in Germania: altrove lo zoom si ferma lì
+  if (t.k > WORLD_K && !inGermany(proj.invert(t.invert([W / 2, H / 2])))) {
+    svg.call(zoom.scaleTo, WORLD_K); return;
+  }
+  state.k = t.k; state.t = t;
+  world.attr("transform", t).attr("display", t.k > WORLD_K ? "none" : null);
+  updatePatterns(); updateLabels(); updateDetailLevels(); place(); updateScale(); hideTip();
+  updateLevel(); if (LEVEL === "hi") applyPaths();
+  updateLand();
+  renderWater();
+});
+svg.call(zoom);
+const bump = f => svg.transition().duration(250).call(zoom.scaleBy, f);
+document.getElementById("zin").onclick = () => bump(2.5);
+document.getElementById("zout").onclick = () => bump(1 / 2.5);
+document.getElementById("zreset").onclick = () => svg.transition().duration(1200).call(zoom.transform, d3.zoomIdentity);
+function focusKm(lon, lat, km, ms) {
+  const [x, y] = proj([lon, lat]), p2 = proj.invert([x + 1, y]);
+  const unitsWide = km * 1000 / (d3.geoDistance([lon, lat], p2) * 6371000);
+  const k = Math.min(MAX_K, W / unitsWide);
+  svg.transition().duration(ms || 2200).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-x, -y));
+}
+function zoomTo(item) {
+  if (item.kind === "line") {
+    const b = geo.bounds(lineGeo(item)), [cx, cy] = [(b[0][0] + b[1][0]) / 2, (b[0][1] + b[1][1]) / 2];
+    const k = Math.min(WORLD_K, .55 / Math.max((b[1][0] - b[0][0]) / W, (b[1][1] - b[0][1]) / H, .0005));
+    svg.transition().duration(1200).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(k).translate(-cx, -cy));
+  } else {
+    const [cx, cy] = pos(item);
+    svg.transition().duration(1200).call(zoom.transform, d3.zoomIdentity.translate(W / 2, H / 2).scale(40).translate(-cx, -cy));
+  }
+}
+
+// Pannello
+function select(item) { state.sel = item; render(); }
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function renderLegend(active) {
+  const counts = {}; ORDER.forEach(k => counts[k] = 0);
+  for (const f of active) { const s = statusAt(f.properties.c, state.m); if (s) counts[s.st]++; }
+  const root = document.getElementById("legend"); root.replaceChildren();
+  for (const k of ORDER) {
+    const sw = el("span", "sw" + (["c", "u", "s"].includes(k) ? " " + k : "")); if (!["c", "u", "s"].includes(k)) sw.style.background = `var(--${k})`;
+    if (!counts[k]) continue;
+    root.append(sw, el("span", "", STATUS[k]), el("span", "n", counts[k]));
+  }
+  // Zone e settori alleati in Germania, Austria, Berlino e Vienna
+  const occNow = new Set(TERRITORIES.filter(x => x.occ && x.a <= state.m && state.m <= x.b).flatMap(x => x.look.split(" ")));
+  for (const [c, n] of [["oc-us", "Occupazione americana"], ["oc-uk", "Occupazione britannica"], ["oc-fr", "Occupazione francese"]]) {
+    if (!occNow.has(c)) continue;
+    const sw = el("span", "sw"); sw.style.background = `var(--${c})`;
+    root.append(sw, el("span", "", n), el("span", "n", ""));
+  }
+  const emp = {};
+  for (const f of active) { const c = colonyAt(f.properties.c, state.m); if (c) (emp[c.e] = emp[c.e] || new Set()).add(c.unit); }
+  const eroot = document.getElementById("emplegend"); eroot.replaceChildren();
+  const ids = Object.keys(window.EMPIRES).filter(id => emp[id]);
+  document.getElementById("empsec").hidden = !ids.length;
+  for (const id of ids) {
+    const e = window.EMPIRES[id], sw = el("span", "sw");
+    sw.style.background = `repeating-linear-gradient(${e.rot + 90}deg, ${e.color} 0 1.5px, #e2dcc8 1.5px 4.5px)`;
+    eroot.append(sw, el("span", "", e.n), el("span", "n", emp[id].size));
+  }
+}
+const EVENTS = new Map();
+function addEv(m, ev) { if (!EVENTS.has(m)) EVENTS.set(m, []); EVENTS.get(m).push(ev); }
+for (const [code, a] of Object.entries(ALIGN)) a.periods.forEach((p, i) => {
+  if (p.m > START) {
+    const prev = a.periods[i - 1];
+    // La fine della guerra cambia quasi tutti gli Stati da "Alleati" al loro campo: non è un evento per ognuno
+    if ((!prev || prev.st !== p.st) && !(prev && prev.st === "A" && p.m === ym("1945-09"))) addEv(p.m, { text: `${a.name}: ${p.note}`, st: p.st, code });
+  }
+});
+const CHANGE_MONTHS = [...EVENTS.keys()].sort((x, y) => x - y);
+function renderEvents() {
+  document.getElementById("evh").textContent = `Cambi di schieramento, ${fmt(state.m).toLowerCase()}`;
+  const root = document.getElementById("events"); root.replaceChildren();
+  const list = EVENTS.get(state.m) || [];
+  if (!list.length) root.append(el("li", "empty", "Nessun cambio in questo mese."));
+  for (const e of list) {
+    const b = el("button", "row"); b.style.gridTemplateColumns = "26px minmax(0,1fr)";
+    b.append(el("span", `pill ${e.st}`, e.st), el("span", "", e.text));
+    b.onclick = () => select({ kind: "state", code: +e.code });
+    const li = el("li"); li.append(b); root.append(li);
+  }
+}
+function renderActive() {
+  const m = state.m, items = [...LINES, ...CONFS].filter(i => i.a <= m && m <= i.b);
+  const root = document.getElementById("active"); root.replaceChildren();
+  if (!items.length) root.append(el("li", "empty", "Nessuna in questo mese."));
+  for (const i of items) {
+    const b = el("button", "row"); b.style.gridTemplateColumns = "minmax(0,1fr)";
+    b.append(el("span", "", i.n));
+    b.onclick = () => { select(i); zoomTo(i); };
+    const li = el("li"); li.append(b); root.append(li);
+  }
+}
+function renderLeader(root, code) {
+  const list = leadersAt(code, state.m);
+  if (!list.length) { root.append(el("p", "n", "Leader non disponibili in questo mese.")); return; }
+  loadPhotos();
+  for (const l of list) {
+    const box = el("div", "leader"), src = window.PHOTOS && window.PHOTOS[l.h];
+    if (src) { const img = el("img"); img.src = src; img.alt = l.n; box.append(img); } else box.append(el("div", "ph"));
+    const t = el("div"), nm = el("div");
+    if (l.w) {
+      const [lang, title] = [l.w.slice(0, 2), l.w.slice(3)];
+      const a = el("a", "wlink", l.n); a.href = `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}`;
+      a.target = "_blank"; a.rel = "noopener noreferrer"; a.title = `Wikipedia${lang === "en" ? " (in inglese)" : ""}: ${title}`;
+      nm.append(a);
+    } else nm.textContent = l.n;
+    t.append(nm, el("div", "n",`${l.role}, ${short(l.a)} – ${l.b === Infinity ? "in carica" : short(l.b)}`));
+    box.append(t); root.append(box);
+  }
+}
+function renderElection(root, code) {
+  const e = electionAt(code, state.m);
+  if (!e) return;
+  root.append(el("p", "n", `Elezioni del ${e.date.split("-").reverse().join("/")}${e.total ? `, ${e.total} seggi` : ""}`));
+  const v = el("div", "vote");
+  for (const [short_, name, votes, seats] of e.parties) {
+    v.append(el("span", "", name || short_), el("span", "n", `${votes != null ? votes + "%" : "—"}${seats != null ? ` · ${seats}` : ""}`));
+    const b = el("div", "b"), i = el("i"); i.style.width = `${e.total && seats != null ? seats / e.total * 100 : votes || 0}%`; b.append(i); v.append(b);
+  }
+  root.append(v);
+}
+function renderDetail() {
+  const root = document.getElementById("detail"), s = state.sel;
+  root.replaceChildren(el("h2", "", "Scheda"));
+  if (!s) { root.append(el("p", "empty", "Clicca uno Stato, una base o una linea sulla mappa.")); return; }
+  if (s.kind === "state") {
+    const a = ALIGN[s.code];
+    const col = colonyAt(s.code, state.m);
+    root.append(el("h3", "", col ? col.unit : a ? nameAt(s.code, state.m) : "Non classificato"));
+    if (!a) return;
+    const cur = statusAt(s.code, state.m);
+    if (col) root.append(el("span", "pill c", window.EMPIRES[col.e].n), el("p", "n", `Territorio che oggi corrisponde a: ${a.name}`));
+    else if (cur) root.append(el("span", `pill ${cur.st}`, STATUS[cur.st]));
+    if (!col) renderLeader(root, s.code);
+    if (!col) renderElection(root, s.code);
+    else root.append(el("p", "empty", "Non esiste ancora in questo mese."));
+    const ul = el("ul", "hist");
+    for (const p of a.periods) {
+      const b = el("button", "row" + (cur === p ? " on" : ""));
+      b.append(el("time", "", short(p.m)), el("span", "", p.note));
+      b.title = "Vai a questo mese"; b.onclick = () => goTo(p.m);
+      const li = el("li"); li.append(b); ul.append(li);
+    }
+    root.append(ul);
+    return;
+  }
+  root.append(el("h3", "", s.n));
+  const end = s.b === Infinity ? "oltre il 1991" : short(s.b);
+  if (s.kind === "base") root.append(el("span", "pill", `${OWNERS[s.owner]} · ${TYPES[s.type]}`));
+  if (s.a !== -Infinity && s.a != null) root.append(el("p", "n", `${short(s.a)} – ${end}`));
+  root.append(el("p", "", s.kind === "base" ? s.note : s.d));
+  if (s.src) root.append(el("p", "n", `Tracciato: ${s.src}`));
+  if (s.note && s.kind !== "base") root.append(el("p", "n", s.note));
+  if (s.kind === "line" || s.kind === "conf") { const j = el("div", "jump"), b = el("button", "", "Vai all'inizio"); b.onclick = () => goTo(s.a); j.append(b); root.append(j); }
+  if (s.kind === "cp") { const j = el("div", "jump"), b = el("button", "", "Vai alla planimetria"); b.onclick = () => goCp(s); j.append(b); root.append(j); }
+}
+function goCp(c) {
+  // La planimetria esiste solo da quando è stato costruito il valico che mostra
+  const planFrom = { charlie: ym("1961-08"), alpha: ALPHA_NEW, bravo: BRAVO_NEW }[c.id];
+  if (state.m < planFrom || state.m > c.b) goTo(ym("1975-06"));
+  select(c); afterDetail(() => focusKm(c.lon, c.lat, c.km));
+}
+(function gotoButtons() {
+  const root = document.getElementById("goto");
+  const add = (label, fn) => { const b = el("button", "", label); b.onclick = fn; root.append(b); };
+  add("Muro di Berlino", () => { if (state.m < WALL_A || state.m > WALL_B) goTo(ym("1975-06")); select(WALL_ITEM); afterDetail(() => focusKm(13.33, 52.5, 55)); });
+  for (const c of CPS) add(c.n, () => goCp(c));
+  add("Muro di Gorizia", () => { if (state.m < ym("1947-09")) goTo(ym("1975-06")); focusKm(13.635, 45.955, 6); });
+  add("Gibilterra", () => { select(GIB_ITEM); focusKm(-5.35, 36.14, 20); });
+  add("Lago d'Aral", () => { if (state.m < ym("1960-01")) goTo(ym("1985-01")); select(ARAL_ITEM); focusKm(60, 45.1, 620); });
+})();
+function checks(rootId, entries, isOn, toggle, icon) {
+  const root = document.getElementById(rootId);
+  for (const [key, label] of entries) {
+    const lab = el("label", "chk"), inp = el("input");
+    inp.type = "checkbox"; inp.id = `${rootId}-${key}`; inp.checked = isOn(key);
+    inp.onchange = () => { toggle(key, inp.checked); render(); };
+    lab.append(inp);
+    if (icon) { const s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "-5 -5 10 10"); s.innerHTML = icon(key); lab.append(s); }
+    lab.append(label); root.append(lab);
+  }
+}
+checks("layers", [["lines", "Fronti e linee"], ["confs", "Conflitti"], ["bases", "Basi"], ["cps", "Checkpoint"], ["battles", "Battaglie"], ["tests", "Test nucleari"], ["aral", "Lago d'Aral"], ["caps", "Capitali"], ["nuke", "Centrali nucleari"]], k => state.layers[k], (k, v) => state.layers[k] = v);
+checks("bfilter", [["nukeOnly", "Con armi nucleari"], ["sovOnly", "Sovrane o in affitto"]], k => state[k], (k, v) => state[k] = v);
+checks("owners", Object.entries(OWNERS), k => state.owners.has(k), (k, v) => v ? state.owners.add(k) : state.owners.delete(k), k => `<circle r="4" fill="${OWNER_COLOR[k]}"></circle>`);
+checks("types", Object.entries(TYPES), k => state.types.has(k), (k, v) => v ? state.types.add(k) : state.types.delete(k), k => `<path d="${SHAPES[k]}" fill="var(--ink)"></path>`);
+
+// Linea del tempo
+const N = END - START;
+const range = document.getElementById("month"); range.max = N;
+(function drawChart() {
+  const rows = d3.range(N + 1).map(i => {
+    const r = { i }; ORDER.forEach(k => r[k] = 0);
+    for (const f of activeFeatures(START + i).values()) { const s = statusAt(f.properties.c, START + i); if (s) r[s.st]++; }
+    return r;
+  });
+  const stack = d3.stack().keys(ORDER).offset(d3.stackOffsetExpand)(rows);
+  const area = d3.area().x(d => d.data.i).y0(d => 42 * (1 - d[0])).y1(d => 42 * (1 - d[1])).curve(d3.curveStepAfter);
+  d3.select("#chart").attr("viewBox", `0 0 ${N} 42`).selectAll("path").data(stack).join("path")
+    .attr("d", area).attr("fill", d => d.key === "c" ? "#e2dcc8" : `var(--${d.key})`);
+  const years = document.getElementById("years");
+  for (const y of [1950, 1960, 1970, 1980, 1990]) {
+    const s = el("span", "", y); s.style.left = `${((y * 12 - START) / N) * 100}%`; years.append(s);
+  }
+})();
+function goTo(m) { state.m = Math.max(START, Math.min(END, m)); render(); }
+range.oninput = () => goTo(START + +range.value);
+document.getElementById("prev").onclick = () => goTo(state.m - 1);
+document.getElementById("next").onclick = () => goTo(state.m + 1);
+document.getElementById("evnext").onclick = () => { const t = CHANGE_MONTHS.find(x => x > state.m); if (t) goTo(t); };
+document.getElementById("evprev").onclick = () => { const t = [...CHANGE_MONTHS].reverse().find(x => x < state.m); if (t) goTo(t); };
+let timer = null;
+const playBtn = document.getElementById("play"), speed = document.getElementById("speed");
+function stop() { clearInterval(timer); timer = null; playBtn.textContent = "▶ Play"; }
+function start() {
+  if (state.m >= END) state.m = START;
+  playBtn.textContent = "❚❚ Stop";
+  clearInterval(timer);
+  timer = setInterval(() => { if (state.m >= END) return stop(); goTo(state.m + 1); }, 1000 / +speed.value);
+}
+playBtn.onclick = () => timer ? stop() : start();
+speed.onchange = () => { if (timer) start(); };
+addEventListener("resize", updateScale);
+addEventListener("keydown", e => {
+  if (e.target.tagName === "SELECT" || e.target === range) return;
+  const step = e.shiftKey ? 12 : 1;
+  if (e.key === "ArrowLeft") goTo(state.m - step);
+  if (e.key === "ArrowRight") goTo(state.m + step);
+});
+updatePatterns(); render(); updateScale();
+</script>

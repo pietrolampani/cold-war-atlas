@@ -1,0 +1,8 @@
+# Foto dei leader (licenze Wikimedia miste): non pubblicate; la pagina funziona senza
+photos.js
+# Copie di lavoro: la pagina pubblicata è index.html
+coldwar.html
+index_pub.html
+.claude/
+__pycache__/
+*.pyc

@@ -1,0 +1,41 @@
+/* Imperi coloniali. Un territorio con stato "c" in ALIGN appartiene all'impero e all'unità indicati qui.
+   Tra territori dello stesso impero non si disegna il confine. COLONIAL: codice -> "impero|nome coloniale";
+   se il possesso cambia nel tempo: "impero|nome|AAAA-MM impero2|nome2". */
+window.EMPIRES = {
+  uk:{n:"Impero britannico",color:"#7a3f5e",rot:45},
+  fr:{n:"Impero francese",color:"#3e5f8f",rot:-45},
+  pt:{n:"Impero portoghese",color:"#3f7a4f",rot:45},
+  be:{n:"Congo belga e mandati",color:"#8a6a1f",rot:-45},
+  es:{n:"Impero spagnolo",color:"#a8602a",rot:0},
+  nl:{n:"Impero olandese",color:"#b5801f",rot:90},
+  it:{n:"Amministrazione italiana",color:"#2f7f7f",rot:90},
+  us:{n:"Possedimenti USA",color:"#2f5f8a",rot:0},
+  au:{n:"Amministrazione australiana",color:"#6a5a8a",rot:90},
+  za:{n:"Mandato sudafricano",color:"#70705a",rot:0},
+  dk:{n:"Danimarca",color:"#5a7f9a",rot:-45},
+};
+window.COLONIAL = {
+21:"uk|Terranova",31:"uk|Bahamas",51:"uk|Giamaica",52:"uk|Trinidad e Tobago",53:"uk|Barbados",80:"uk|Honduras britannico",110:"uk|Guyana britannica",
+338:"uk|Malta",352:"uk|Cipro",420:"uk|Gambia",451:"uk|Sierra Leone",452:"uk|Costa d'Oro",462:"uk|Togoland britannico",472:"uk|Camerun britannico",475:"uk|Nigeria",
+500:"uk|Uganda",501:"uk|Kenya",510:"uk|Tanganica",511:"uk|Zanzibar",521:"uk|Somaliland britannico",531:"uk|Eritrea",
+550:"uk|Federazione di Rhodesia e Nyasaland",551:"uk|Rhodesia del Nord",552:"uk|Rhodesia del Sud",553:"uk|Nyasaland",
+570:"uk|Basutoland",571:"uk|Bechuanaland",572:"uk|Swaziland",590:"uk|Mauritius",620:"uk|Libia",625:"uk|Sudan anglo-egiziano",
+663:"uk|Transgiordania",665:"uk|Palestina",681:"uk|Aden",6801:"uk|Arabia del Sud",6812:"uk|Arabia del Sud",694:"uk|Qatar",696:"uk|Stati della Tregua",
+750:"uk|Raj britannico",775:"uk|Birmania",780:"uk|Ceylon",781:"uk|Maldive",
+820:"uk|Malesia britannica",821:"uk|Malesia britannica",822:"uk|Malesia britannica",827:"uk|Malesia britannica",830:"uk|Malesia britannica",
+823:"uk|Borneo del Nord, colonia della Corona",824:"uk|Sarawak, colonia della Corona",835:"uk|Brunei, protettorato britannico",
+940:"uk|Isole Salomone",950:"uk|Figi",3902:"uk|Isole Falkland",
+432:"fr|Africa Occidentale Francese",433:"fr|Africa Occidentale Francese",434:"fr|Africa Occidentale Francese",435:"fr|Africa Occidentale Francese",436:"fr|Africa Occidentale Francese",437:"fr|Africa Occidentale Francese",438:"fr|Africa Occidentale Francese",439:"fr|Africa Occidentale Francese",
+481:"fr|Africa Equatoriale Francese",482:"fr|Africa Equatoriale Francese",483:"fr|Africa Equatoriale Francese",484:"fr|Africa Equatoriale Francese",
+461:"fr|Togo francese",471:"fr|Camerun francese",522:"fr|Somalia francese",580:"fr|Madagascar",581:"fr|Comore",585:"fr|Riunione",
+600:"fr|Marocco francese",615:"fr|Algeria francese",616:"fr|Tunisia",652:"fr|Siria",
+65:"fr|Guadalupa",66:"fr|Martinica",120:"fr|Guyana francese",1201:"fr|Guyana francese",
+811:"fr|Indocina francese",812:"fr|Indocina francese",815:"fr|Indocina francese",930:"fr|Nuova Caledonia",960:"fr|Polinesia francese",
+402:"pt|Capo Verde",404:"pt|Guinea portoghese",540:"pt|Angola",541:"pt|Mozambico",860:"pt|Timor portoghese",
+490:"be|Congo belga",515:"be|Ruanda-Urundi",
+411:"es|Guinea spagnola",602:"es|Marocco spagnolo",6021:"es|Marocco spagnolo",609:"es|Sahara spagnolo",610:"es|Africa occidentale spagnola",
+115:"nl|Suriname",851:"nl|Nuova Guinea olandese",
+5200:"uk|Somalia italiana|1950-04 it|Somalia",
+840:"us|Filippine",565:"za|Africa del Sud-Ovest",
+910:"au|Papua Nuova Guinea",911:"au|Papua Nuova Guinea",912:"au|Papua Nuova Guinea",3901:"dk|Groenlandia",
+};

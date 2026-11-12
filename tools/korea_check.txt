@@ -1,0 +1,141 @@
+esito	nome	tipo	elemento	lat	lon	atteso	trovato
+assente	Kobuk-som	islet	way	37.8062	125.8664	KP	None
+assente	Kot-to	island	way	38.523	124.7651	KP	None
+assente	Kŭm-do	island	way	38.5164	124.8102	KP	None
+assente	Myŏng-do	island	way	38.5563	124.8494	KP	None
+assente	Rabbits Island	islet	way	37.392	126.6396	KR	None
+assente	Sindo	islet	way	37.5074	126.0449	KR	None
+assente	Wolmido	island	node	37.473	126.6028	KR	None
+assente	감투섬	islet	way	37.5595	126.3424	KR	None
+assente	검은도	islet	way	38.3185	128.5444	KR	None
+assente	남장자서	islet	way	37.3153	126.4804	KR	None
+assente	매도랑	islet	way	37.4141	126.4418	KR	None
+assente	백도	islet	way	38.3134	128.5494	KR	None
+assente	볼음도	island	way	37.6666	126.183	KR	None
+assente	북장자서	islet	way	37.3305	126.4777	KR	None
+assente	비도	islet	way	37.61	125.9681	KR	None
+assente	비도	islet	way	37.6102	125.9672	KR	None
+assente	수상암	islet	way	37.5529	126.5573	KR	None
+assente	옥귀도	islet	way	37.3551	126.6897	KR	None
+assente	웅도	island	node	37.6261	125.2468	KP	None
+assente	지리도	islet	way	38.7024	125.14	KP	None
+assente	켬섬	islet	way	37.5779	126.5713	KR	None
+ok	Baengmado Island	islet	way	37.61	126.7892	KR	KR
+ok	Chopyeongdo	island	way	37.9088	126.7817	KR	KR
+ok	Daecheongdo	island	way	37.8211	124.6944	KR	KR
+ok	Dokdo	islet	way	37.6495	126.7215	KR	KR
+ok	Eohwa-do	island	way	37.7507	125.229	KP	KP
+ok	Gunman-do	islet	way	37.8322	125.3704	KP	KP
+ok	Hachwira Island	islet	way	38.7284	125.097	KP	KP
+ok	Hambak Island	islet	way	37.6778	126.0286	KP	KP
+ok	Hyŏnjŏk-to	island	way	38.5668	124.811	KP	KP
+ok	Jumundo	island	way	37.6432	126.2459	KR	KR
+ok	Khunsom Islet	islet	way	38.1899	124.768	KP	KP
+ok	Kirin-do	island	way	37.8193	125.0203	KP	KP
+ok	Kkamagwi-som	islet	way	37.6888	125.0867	KP	KP
+ok	Kone-do	island	way	38.5321	124.7769	KP	KP
+ok	Kyemoru-som	island	node	37.8223	125.408	KP	KP
+ok	Mahap-do	island	way	37.9222	124.959	KP	KP
+ok	Mibeopdo	island	way	37.7299	126.2638	KR	KR
+ok	Mubul-sŏ	island	way	38.5013	124.8684	KP	KP
+ok	Ojak-do	islet	way	38.0705	124.921	KP	KP
+ok	Pa-do	islet	way	37.8218	125.3652	KP	KP
+ok	Pae-som	islet	way	37.8771	125.446	KP	KP
+ok	Piap-do	islet	way	37.6847	125.091	KP	KP
+ok	Ryugup-do	islet	way	37.7634	125.8807	KP	KP
+ok	Ryuk-do	islet	way	38.0742	124.9283	KP	KP
+ok	Ryuk-som	island	node	37.7648	125.6256	KP	KP
+ok	Sangchwira Island	islet	way	38.7202	125.1138	KP	KP
+ok	Seogeomdo	island	way	37.7212	126.2344	KR	KR
+ok	Seongmodo	island	way	37.6998	126.324	KR	KR
+ok	Seonyudo Island	islet	way	37.5438	126.9001	KR	KR
+ok	Silmi Island	islet	way	37.4015	126.3921	KR	KR
+ok	Sin-do	islet	way	37.8448	125.3752	KP	KP
+ok	Sosuapdo	island	way	37.8353	125.7513	KP	KP
+ok	Soyeonpyeongdo Island	island	way	37.6072	125.7089	KR	KR
+ok	Sunwi-do	island	way	37.7361	125.2795	KP	KP
+ok	Susuttegi	islet	way	37.5093	126.4789	KR	KR
+ok	Sŏ-do	island	way	38.5502	124.7632	KP	KP
+ok	Taesuapdo	island	way	37.8067	125.7691	KP	KP
+ok	Taksom	island	node	37.8157	125.6569	KP	KP
+ok	Tol-sŏm	island	way	38.5015	124.8791	KP	KP
+ok	Turtle Island	island	way	37.3214	126.6787	KR	KR
+ok	Tŏk-to	island	way	38.5715	124.8067	KP	KP
+ok	U-do	islet	way	37.764	125.9023	KP	KP
+ok	Umi-ri island	island	way	38.3971	126.8087	KP	KP
+ok	Waudo	islet	way	38.6816	128.302	KP	KP
+ok	Wi-do	islet	way	37.8338	125.4101	KP	KP
+ok	Wollae-do	islet	way	38.0571	124.819	KP	KP
+ok	Yongho-do	island	way	37.799	125.3435	KP	KP
+ok	jag-eun meolgoat	islet	way	37.5357	126.3871	KR	KR
+ok	간란도	islet	way	37.82	125.7599	KP	KP
+ok	갈도	islet	way	37.7154	125.6529	KP	KP
+ok	갑축도	island	way	37.7988	124.659	KR	KR
+ok	구지도	islet	way	37.6357	125.6805	KR	KR
+ok	날가지도	islet	way	37.5123	126.3233	KR	KR
+ok	납섬	island	way	37.7201	126.2112	KR	KR
+ok	납섬	islet	way	37.682	126.3782	KR	KR
+ok	노랑섬	islet	way	37.5166	126.4882	KR	KR
+ok	달맞이섬	islet	way	37.6588	126.7627	KR	KR
+ok	당도	islet	way	37.6631	125.7124	KR	KR
+ok	당섬	islet	way	37.6545	125.7114	KR	KR
+ok	대다물도	islet	way	37.5556	126.5692	KR	KR
+ok	대섬	islet	way	37.6923	126.3722	KR	KR
+ok	대성도	islet	way	37.6754	126.3004	KR	KR
+ok	대초지도	island	way	37.3286	126.2663	KR	KR
+ok	덕도	islet	way	38.7493	124.9677	KP	KP
+ok	동검도	island	way	37.5896	126.5159	KR	KR
+ok	동그랑섬	islet	way	37.5901	126.5282	KR	KR
+ok	동만도	islet	way	37.5467	126.2721	KR	KR
+ok	동초지도	island	way	37.3228	126.2622	KR	KR
+ok	말끗	islet	way	37.5337	126.3961	KR	KR
+ok	매도	island	way	37.5268	126.5778	KR	KR
+ok	매도	islet	node	37.5271	126.5768	KR	KR
+ok	모도	islet	way	37.533	126.4089	KR	KR
+ok	모이도	islet	way	37.6451	125.7174	KR	KR
+ok	무도	islet	way	37.7418	125.5769	KP	KP
+ok	물치도	islet	way	37.4971	126.589	KR	KR
+ok	반달섬	island	way	37.3006	126.7364	KR	KR
+ok	범섬 (호도)	islet	node	37.5481	126.587	KR	KR
+ok	봉곳도	islet	way	37.7853	125.1206	KP	KP
+ok	부래도	islet	way	37.6608	126.5397	KR	KR
+ok	사렴도	islet	way	37.4047	126.4379	KR	KR
+ok	사염	islet	way	37.5014	126.3289	KR	KR
+ok	서만도	islet	way	37.5542	126.2613	KR	KR
+ok	섬돌모루도	islet	way	37.7124	126.3277	KR	KR
+ok	세어도	islet	way	37.5737	126.5628	KR	KR
+ok	소다물도	islet	way	37.5574	126.5655	KR	KR
+ok	소무의도	islet	way	37.3732	126.4436	KR	KR
+ok	소송도	islet	way	37.6785	126.3086	KR	KR
+ok	소운염도	islet	way	37.5355	126.5747	KR	KR
+ok	소초지도	island	way	37.3156	126.2737	KR	KR
+ok	소항산도 (소송여도)	islet	way	37.5929	126.5487	KR	KR
+ok	솔바리	islet	node	37.5125	126.4781	KR	KR
+ok	송가도	island	way	37.7353	126.2991	KR	KR
+ok	시도	island	way	37.5347	126.4261	KR	KR
+ok	시오도	islet	way	37.5192	126.42	KR	KR
+ok	신도	island	way	37.5252	126.453	KR	KR
+ok	신오도	islet	way	37.5174	126.4257	KR	KR
+ok	안암도	islet	way	37.5944	126.58	KR	KR
+ok	약초섬	islet	way	37.6608	126.7612	KR	KR
+ok	어류정도	island	way	37.6519	126.3331	KR	KR
+ok	오리섬	islet	way	38.7003	125.2524	KP	KP
+ok	옥도	islet	way	38.6818	125.1795	KP	KP
+ok	우도	island	way	37.6085	125.9747	KR	KR
+ok	운염도	islet	way	37.5396	126.5753	KR	KR
+ok	유도	islet	way	37.7771	126.5358	KR	KR
+ok	자연학습장	islet	way	37.6632	126.7591	KR	KR
+ok	잠진도	islet	way	37.4192	126.4145	KR	KR
+ok	장고도	islet	way	37.5394	126.5029	KR	KR
+ok	장봉도	island	way	37.538	126.3407	KR	KR
+ok	장재도	islet	way	37.7367	125.6491	KP	KP
+ok	정도	islet	way	37.5463	126.5781	KR	KR
+ok	죽도	islet	way	38.3355	128.5347	KR	KR
+ok	지내섬	islet	way	37.5772	126.5541	KR	KR
+ok	큰가리기섬	islet	way	37.3158	126.6059	KR	KR
+ok	태미섬	islet	way	37.5364	126.9068	KR	KR
+ok	팔미도	islet	way	37.3588	126.5122	KR	KR
+ok	편안여	islet	way	37.4861	126.3033	KR	KR
+ok	피도	islet	way	38.682	125.1757	KP	KP
+ok	해녀도	islet	way	37.3612	126.4408	KR	KR
+ok	황산도	islet	way	37.6212	126.5407	KR	KR
